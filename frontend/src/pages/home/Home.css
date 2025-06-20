@@ -1,0 +1,163 @@
+.home-main-back{
+   width: 100vw;
+    background-color: black;
+   
+}
+.home-content-back {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    /*background-color: yellow;*/
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    overflow: hidden;
+    background-image: linear-gradient(to right, rgb(0, 0, 0) 25%, rgba(37, 37, 37, 0.345)), url("../../assets/grey-bg.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid rgba(245, 222, 179, 0.167);
+}
+
+.home-content-back .bg-img {
+    min-height: 100%;
+    z-index: 1;
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    animation: fadeImage 1.5s ease-in-out forwards;
+}
+
+.home-content-back .profile-sidebar-back {
+    display: none;
+}
+
+
+.home-content-back .home-content {
+    z-index: 10;
+    width: 80%;
+    min-height: 60%;
+    left: 5.5%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    color: white;
+    padding: 50px 20px;
+
+}
+
+.home-content h2 {
+    font-family: "Ysabeau SC", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 20px;
+    font-variation-settings: "wdth" 100;
+    transform: translateY(-1000%);
+    /*animation: fadein 1.5s ease-in-out forwards;*/
+    animation: dropBounce 0.5s ease-out forwards, stillPosition ease-in infinite;
+    animation-delay: 1.5s;
+}
+
+.home-content h1 {
+    font-family: "Tangerine", serif;
+    font-weight: 400;
+    min-width: 50%;
+    font-style: normal;
+    font-size:clamp(1rem,2rem,3rem);
+    padding: 10px 0px;
+    transform: translateY(-1000%);
+    /*animation: fadein 1.5s ease-in-out forwards;*/
+    animation: dropBounce 0.5s ease-out forwards, stillPosition ease-in infinite;
+    animation-delay: 1s;
+}
+
+.home-content p {
+    width: 66%;
+    line-height: 20px;
+    font-size: 14px;
+    color: rgb(167, 167, 167);
+    opacity: 0;
+    animation: fadeImage 1s ease-in-out forwards, stillPosition ease-in infinite;
+    animation-delay: 2.5s;
+}
+
+.home-content .btn-back {
+    width: 100%;
+    padding: 30px 0px;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transform: translateY(-1000%);
+    /*animation: fadein 1.5s ease-in-out forwards;*/
+    animation: dropBounce 0.5s ease-out forwards, stillPosition ease-in infinite;
+    animation-delay: 1.8s;
+}
+
+.btn-back .content-btn {
+    padding: 12px;
+    border-radius: 20px;
+    border: 1px solid rgb(193, 193, 193);
+    background-color: transparent;
+    color: white;
+    margin-right: 10px;
+    min-width: 180px;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: "Ysabeau SC", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.content-btn:hover {
+    box-shadow: 0px 0px 0px, 0px 0px 12px 2px rgb(49, 49, 49);
+}
+
+#home-cart-btn {
+    background: linear-gradient(white 60%, rgb(189, 159, 102));
+    color: black;
+}
+
+.home-main-content{
+    background-color: pink;
+}
+
+
+
+
+@media (width>=320px) and (width<=425px){
+
+    .home-content-back {    
+    }
+    .home-content-back .home-content{
+        width: 100%;
+        left: 0%;
+        padding:70px 0px;
+        text-align: center;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.504),rgba(0, 0, 0, 0.652));
+        box-shadow: 0px 0px 500px 500px rgba(0, 0, 0, 0.504);
+        border: none;
+    }
+    .home-content h1 {
+        width:100%;
+        font-size: 25px;
+    }
+    .content-detail{
+    }
+    .content-detail p{
+        padding:15px 0px;
+        width: 70%;
+        color: rgb(226, 226, 226);
+        margin: auto;
+    }
+    .btn-back{
+        flex-direction: column;
+        gap: 15px;
+    }
+
+
+}

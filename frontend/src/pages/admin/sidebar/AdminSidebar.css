@@ -1,0 +1,96 @@
+.adminsidebar-back{
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.711) , rgb(0, 0, 0) ),  url("../../../assets/grey-bg.jpg");
+    background-position: center;
+    background-size: cover;
+    width:50px;
+    transition: 0.4s;
+    z-index: 1000;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.adminsidebar-back-active{
+    z-index: 1000;
+    width:200px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.711) , rgb(0, 0, 0) ),  url("../../../assets/grey-bg.jpg");
+    background-position: center;
+    background-size: cover;
+    transition: 0.4s;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.adminsider-ul{
+    height: 65%;
+    padding: 20px 0px;
+    margin-top: 60px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.adminsider-ul li,li{
+    width: 97%;
+}
+.side-link-active{
+    color:white;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    width: 85%;
+    border-radius: 15px;
+    position: relative;
+    text-decoration: none;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: 0.3s;
+        cursor: pointer;
+}
+.side-active-link{
+    color:black;
+    display: flex;
+    background:white;
+    justify-content: center;
+    padding: 8px;
+    width: 85%;
+    border-radius: 15px;
+    position: relative;
+    text-decoration: none;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: 0.3s;
+}
+.side-link{
+    color:transparent;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    width: 85%;
+    border-radius: 15px;
+    position: relative;
+    text-decoration: none;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: 0.3s;
+}
+.dash-label{
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.icons{
+    position: absolute;
+    left: 0;
+    color: white;
+    margin-left: 10px;
+}
+.logout-back{
+    width: 85%;
+    margin:10px auto;
+    border-radius: 15px;
+}

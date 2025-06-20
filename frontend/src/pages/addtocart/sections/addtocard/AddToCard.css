@@ -1,0 +1,111 @@
+.cart-heading{
+    display: flex;
+    justify-content: space-around;
+}
+.cart-heading h1{
+    width: 83%;
+}
+.cart-heading .delete-icon{
+    width:25px;
+    cursor: pointer;
+}
+.addtocard-main-back{
+   height: 80vh;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+   position:relative;
+
+}
+.addtocard-main-back .heading1{
+    padding: 10px;
+    width: 100%;
+    /*border-bottom: 1px solid rgb(229, 226, 226);*/
+    border-bottom: 1px solid rgb(194, 174, 138);
+}
+.addtocard-main-scroll{
+    height: 70%;
+    width: 100%;
+    overflow-y: scroll;
+    
+}
+.addtocard-main-scroll::-webkit-scrollbar{
+    display: none;
+}
+.addtocard-btn-back{
+    display: flex;
+    width: 95%;
+    justify-content: space-between;
+    align-items: center;
+    position:absolute;
+    bottom: 0;
+    padding:20px 0px;
+}
+.addtocard-btn-back .no-of-products{
+    width:13%
+}
+.addtocard-btn-back .continue-btn{
+    width:120px;
+    border-radius: 15px ;
+    padding:10px 20px;
+    font-size: 16px;
+    color: white;
+    transition: 0.4s;
+    cursor: pointer;
+    outline: 1px solid #b59b6b;
+}
+
+.order-detail-back h2 , h4{
+    color:#b59b6b;
+    font-weight: 500;
+
+    font-style: italic;
+}
+
+@media  (width>=768px) and (width<=800px) {
+   
+}
+
+@media  (width>=320px) and (width<=425px) {
+    .addtocard-main-back{
+        width: 100%;
+        height: 76vh;
+    }
+    .cart-heading{
+        justify-content: space-between;
+    }
+    .cart-heading h1{
+        width: 50%;
+        font-size: 20px;
+    }
+    .cart-heading .delete-icon{
+        width:20px;
+        margin-right: 10px;
+    }
+    .addtocard-main-scroll{
+        height: 80%;
+    }
+    .addtocard-btn-back{
+        padding:10px 0px;
+    }
+    .addtocard-btn-back .no-of-products{
+    font-size: 12px;
+    }
+    .addtocard-btn-back .continue-btn{
+        width: auto;
+        font-size: 14px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .order-detail-back h4{
+        font-size: 14px;
+    }
+    .order-detail-back h4 h2{
+        font-size: 18px;
+        text-align: center;
+    }
+}

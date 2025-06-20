@@ -1,0 +1,41 @@
+.sidebar-back{
+    background-image: linear-gradient(to bottom, rgb(0, 0, 0) 20%, rgba(7, 7, 7, 0.846), rgb(0, 0, 0) ),  url("../../assets/grey-bg.jpg");
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    width:100%;
+    height: 100%;
+    z-index: 500;
+    transform: translateX(0%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+}
+.sidebar-back ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap:45px;
+    margin-top: 30px;
+    padding:0px 20px;
+}
+
+.sidebar-back .sidebar-link{
+    text-decoration: none;
+    text-align: center;
+    font-size: 1.55rem;
+    color:white;
+    transition:transform 0.3s;
+    transform: scale(1);
+}
+.sidebar-back .sidebar-link:hover{
+    color:grey;
+}
+.sidebar-back .active-sidebar-link{
+    text-decoration: none;
+    text-align: center;
+    font-size: 1.55rem;
+    color:rgb(88, 88, 88);
+    transition:transform 0.3s;
+}

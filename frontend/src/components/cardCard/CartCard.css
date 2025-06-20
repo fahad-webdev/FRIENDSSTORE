@@ -1,0 +1,165 @@
+.cartcard-main-back {
+    width: 100%;
+    margin: 10px 0px;
+    padding: 20px;
+    height: 100px;
+    background-color: white;
+    border-bottom: 1px solid rgb(208, 208, 208);
+    box-shadow: 0px 0px 10px 5px rgb(220, 220, 220);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cart-image-back {
+    width: 10%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.cart-image-back .cart-image {
+    height: 100%;
+}
+
+.cart-details-back {
+    width: 65%;
+    /*margin:0px 20px;*/
+}
+
+.cart-details-back h2 {
+    font-weight: 500;
+    font-size: 20px;
+    color: rgb(75, 75, 75);
+}
+
+.cart-details-back h3 {
+    color: #b59b6b;
+    font-weight: 500;
+ 
+}
+.cart-details-back .quantity-back{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: grey;
+}
+.quantity-back label{
+    font-size: 1rem;
+    font-family:sans-serif;
+    font-style: italic;
+}
+.cart-price-back {
+    width: 14%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100%;
+    margin-right: 40px;
+}
+
+.cart-price-back h3 {
+    color: #b59b6b;
+    font-style: italic;
+    font-size: 22px;
+}
+
+.cart-price-back .cross {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15px;
+    color: #595959;
+    cursor: pointer;
+}
+
+.cartcard-checkbox {
+    height: 100%;
+    width: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkbox {
+    width: 25px;
+    height: 25px;
+    border: 1px solid rgba(70, 70, 70, 0.397);
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+.check-icon {
+    color: black;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    padding: 5px;
+}
+
+@media (width>=320px) and (width<=425px) {
+    .cartcard-main-back {
+        width: 100%;
+        padding: 10px;
+    }
+    #cartcard-checkbox {
+        margin-left: 10px;
+    }
+
+    .checkbox {
+        width: 15px;
+        height: 15px;
+    }
+    .check-icon {
+        width: 100%;
+        height: auto;
+        padding: 2px;
+    }
+    .cart-image-back {
+        width: 15%;
+    }
+    .cart-image-back .cart-image{
+        object-fit: contain;
+    }
+    .cart-details-back {
+        width: 50%;
+        padding: 0px 5px;
+    }
+    .cart-details-back h2 {
+        font-weight: 600;
+        font-size: 14px;
+        height: 60px;
+        overflow-y: scroll;
+    }
+    .cart-details-back h3{
+        font-size: 16px;
+    }
+    .cart-details-back h2::-webkit-scrollbar{
+        display: none;
+    }
+    .cart-price-back {
+        width: 14%;
+    }
+    .cart-price-back h3{
+        font-size: 16px;
+    }
+    .cart-price-back .cross {
+        width: 12px;
+    }
+}
+
+@media (width>=768px) and (width<=800px) {
+
+    .cart-details-back {
+        width: 55%;
+        /*margin:0px 20px;*/
+    }
+}
+
+

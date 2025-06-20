@@ -1,0 +1,179 @@
+/*            CSS for PRODUCTS TABLE              */
+.top-product-table {
+  width: 100%;
+  height: auto;
+  border-collapse: collapse;
+  position: relative;
+  background-color: white;
+}
+
+.top-product-table tbody {}
+
+.top-product-table .th1 {
+  width: 35%;
+}
+
+.top-product-table thead {
+  background: linear-gradient(to right, #cfb482, rgba(209, 186, 145, 0.863));
+  color: white;
+}
+
+.top-product-table th {
+  position: sticky;
+  background: linear-gradient(to right, #cfb482, rgb(209, 186, 145));
+  top: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 5px;
+}
+
+/*.top-product-table .table-row:hover {
+  cursor: pointer;
+  background-color: rgb(225, 224, 224);
+  transition: 0.4s;
+}*/
+
+.top-product-table td {
+  vertical-align: top;
+  gap: 5px;
+  font-size: clamp(0.7rem, 5vw, 0.9rem);
+  font-weight: 500;
+  text-align: center;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.337);
+  color: rgb(81, 81, 81);
+}
+
+.top-product-table td:nth-child(2),
+.top-product-table td:nth-child(3),
+.top-product-table td:nth-child(4),
+.top-product-table td:nth-child(5),
+.top-product-table td:nth-child(6) {
+  padding: 20px 0px;
+}
+
+.top-product-table td:nth-child(7) {
+  padding-top: 10px;
+}
+
+.top-product-table .td1 {
+  display: flex;
+  width: 100%;
+  font-size: 0.7rem;
+  padding-top: 10px;
+}
+
+.td1 p {
+  width: 60%;
+  margin: 10px;
+  font-weight: 600;
+
+}
+
+.top-product-table .td2 {
+  width: 22%;
+
+  font-size: 0.8rem;
+}
+
+.top-product-table .td5 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgb(16, 16, 16)
+}
+
+.top-product-table .td6 {}
+
+.top-product-table .in-stock,
+.top-product-table .out-stock {
+  border: 1px solid rgb(0, 159, 0);
+  display: flex;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: 600;
+  color: rgb(3, 153, 3);
+  justify-content: center;
+  margin: 0px 10%;
+}
+
+.top-product-table .out-stock {
+  border: 1px solid rgb(162, 0, 0);
+  color: rgb(184, 0, 0);
+}
+
+.top-product-table .td7 {}
+
+.top-product-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.admin-product-image-back {
+  width: 30%;
+  height: 80px;
+  display: flex;
+}
+
+.options-btn-back {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  width: auto;
+  gap: 5px;
+  margin: auto;
+  padding: 5px;
+}
+
+.options-btn {
+  padding: 6px 3px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  width: 70px;
+  margin: auto;
+  font-size: 0.7rem;
+  background: linear-gradient(rgb(152, 1, 1), rgb(88, 0, 0));
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.edit-options-btn {
+  background: linear-gradient(rgb(2, 91, 146), rgb(1, 25, 44));
+}
+
+.options-btn:hover {
+  background: linear-gradient(rgb(170, 43, 43), rgb(176, 26, 26));
+}
+
+.edit-options-btn:hover {
+  background: linear-gradient(rgb(2, 115, 186), rgb(2, 79, 143));
+}
+
+/*                  CSS for user table */
+.user-table td {
+  font-size: 1rem;
+
+}
+
+.user-table .profile-th1 {
+  width: 10%;
+}
+
+.user-table .profile-pic-back {}
+
+.user-table .profile-pic-back .profile-pic {
+  width: 50px;
+  margin: 10px 0px;
+}
+
+/*                     CSS for  NO PRODUCT FOUND message */
+.not-found-message {
+  color: rgb(79, 33, 24);
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  padding: 50px;
+}

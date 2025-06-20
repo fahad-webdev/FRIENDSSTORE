@@ -1,0 +1,109 @@
+.contactpage{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.contactpage .heading1 h1{
+    text-align: center;
+}
+.contactpage-detail-back{
+    padding:30px;
+    border: 1px solid rgb(194, 174, 138);
+    width:60%;
+    margin:0px auto;
+}
+.contactpage-heading{
+    display: flex;
+}
+.contactpage-heading h1{
+    font-size: 25px;
+    color: rgb(101, 76, 51);
+}
+.contact-page-detail{
+    padding-top: 30px ;
+}
+.contactpage-input-back{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.contactpage-input-back .contact-input{
+    width: 55%;
+    border: none;
+    border: 1px solid rgb(194, 174, 138);
+    background-color: transparent;   
+    outline: none;
+    font-size: 14px;
+}
+.contactpage-input-back label{
+    font-weight: 400;
+    color: rgb(102, 88, 62);
+    width: 45%;
+    font-size: 18px;
+}
+.contactpage-input-back .contact-label{
+    font-size: 14px;
+    font-weight: 200;
+}
+#text-area{
+    width:55%;
+    height: 80px;
+    padding: 8.5px;
+}
+#text-area::-webkit-scrollbar{
+    display: none;
+}
+.contact-page-btn-back{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 10px 0px;
+    gap:10px;
+}
+.contact-page-btn{
+    padding:10px ;
+    width:80px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 5px;
+    background: linear-gradient(black,rgb(0, 0, 0));
+    color:white;
+    cursor: pointer;
+    transition: 0.4s;
+    border: none;
+}
+.contact-page-btn:hover{
+    transition: 0.4s;
+    background: linear-gradient(white, rgb(194, 174, 138));
+    color:black;
+    font-weight: 600;
+    box-shadow: 0px 3px 15px 3px rgba(83, 83, 83, 0.561);
+}
+
+
+@media (width>=320px) and (width<=425px){
+    .contactpage-detail-back{
+        width: 75%;
+        padding: 20px;
+    }
+    .contactpage-heading h1{
+        font-size: 20px;
+    }
+    .contactpage-input-back{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .contactpage-input-back label{
+        width: 90%;
+    }
+    .contactpage-input-back .contact-input{
+        width: 90%;
+        margin-top: 10px;
+    }
+    #text-area{
+        width:90%;
+    }
+}

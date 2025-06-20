@@ -1,0 +1,315 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10+ */
+}
+
+.heading1 {
+  padding: 30px 0px;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading1 h1 {
+  font-size: clamp(1.5rem, 5vw, 1.6rem);
+
+}
+
+h1 {
+  width: 78%;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 500;
+}
+
+.para {
+   opacity: 0;
+  font-size: 0.8rem;
+  font-weight: 300;
+  width: 76%;
+  margin: 20px auto;
+  text-align: justify;
+  overflow: hidden;
+}
+/*=============================================================
+                        animations 
+===============================================================*/
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes dropBounce {
+    0% {
+        opacity: 0;
+        transform: translateY(-1000%);
+    }
+
+    75% {
+        opacity: 1;
+        transform: translateY(30px);
+    }
+
+    100% {
+
+        transform: translateY(0px);
+    }
+}
+
+@keyframes stillPosition {
+    from {
+        transform: translateX(0px);
+    }
+
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes paraFadein {/*for all page layout content para*/
+    from {
+        transform: translateZ(-30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateZ(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes headDragIn {
+     from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+@keyframes fadeImage {
+  from {
+    opacity: 0;
+    transform: translateZ(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateZ(0px);
+  }
+}
+
+@keyframes BounceHeading {
+  0% {
+    transform: translateY(-1000%);
+    opacity: 0;
+  }
+
+  75% {
+    transform: translateY(20px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes spinLoader {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinImage {
+  0% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pump {
+
+  /*for loading*/
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes notify {
+    0%{
+        transform: translateX(-100%);
+    }
+    25%{
+        transform: translateX(0%);
+    }
+    50%{
+        transform: translateX(0%);
+    }
+    75%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(100%);
+    }
+}
+.animated-para {
+    animation: headDragIn 1.2s ease-in-out forwards;
+}
+
+
+.animated-head{
+    animation:headDragIn 1.2s ease-in-out forwards;
+}
+
+
+.loading {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  display: flex;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.loading span {
+  height: 100px;
+  width: 100px;
+  margin: auto;
+  border-radius: 50%;
+  animation: spinLoader 2.5s linear infinite;
+  border: 10px solid rgba(0, 0, 0, 0.445);
+  border-top: 10px solid transparent;
+}
+
+.loader-image {
+  z-index: 1500;
+  border-radius: 50%;
+  padding: 10px;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: pump 2s ease-in-out infinite;
+
+}
+
+/*            CSS for Admin panel              */
+.admin-head-back {
+  overflow: hidden;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-heading {
+  font-size: 1.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  width: auto;
+}
+
+/*=========================================================================*/
+/*                  CSS for alert notification                             */
+/*=========================================================================*/
+.alert-back{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 1500;
+    justify-content: space-between;
+    transform: translateX(-100%);
+}
+.success{
+    background-color: #73e7b3;
+    color: #193002;
+}
+.danger{
+    background-color: #fb8b8bf1;
+    color: #570505;
+}
+.alert-back-active{
+    animation: notify 2.5s ease-in-out;
+}
+.alert-message p{
+    padding:10px;
+    font-size: 20px;
+}
+
+.alert-back .alert-icon{
+    width: 30px;
+    margin:0px 10px
+}
+.alert-back .close{
+    width: 20px;
+    transition: 0.3s;
+    transform: scale(1);
+    cursor: pointer;
+}
+.alert-back .close:hover{
+    transition: 0.3s;
+    transform: scale(1.1);
+}
+
+
+.not-found-message {
+  color: rgb(79, 33, 24);
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  padding: 50px;
+}
+
+@media (width>=320px) and (width<=425px) {
+
+  .heading1 h1 {
+    text-align: center;
+  }
+
+  .heading1::-webkit-scrollbar {
+    display: none;
+  }
+}

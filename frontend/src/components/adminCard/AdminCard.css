@@ -1,0 +1,47 @@
+/*   CSS for admin card*/
+.admin-card{
+    cursor: pointer;
+    color: white;
+    min-height: 75px;
+    padding: 15px 0px;
+    margin: 0px 8px;
+    background: linear-gradient(to right, #cfb482, rgba(209, 186, 145, 0.863));
+    box-shadow: 0px 0px 15px 5px rgba(152, 152, 152, 0.579);
+    border-radius: 10px;
+    transition: 0.3s;
+    transform: scale(1);
+}
+.admin-card:hover{
+    transform: scale(1.03);
+    background: linear-gradient(to right, #d9bc86, rgba(217, 191, 146, 0.863));
+}
+.card-head-back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-icon{
+    transform: scaleX(-1);
+}
+.card-head-back h3{
+    font-weight: 500;
+    font-size: 1rem;
+    margin: 0px 5px;
+}
+
+.card-values{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    text-align: center;
+}
+.card-values h1{
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card-values .dollar{
+    font-size:2rem;
+}

@@ -1,0 +1,27 @@
+.adminproductdetail-main{
+    height: 89%;
+    width: 100%;
+    display: flex;
+    margin: auto;
+    overflow: hidden;
+}
+.adminproductdetails-half1,.adminproductdetails-half2{
+    height: 100%;
+}
+.adminproductdetail-size-back{
+    margin-bottom: 20px;
+}
+@media (width>=480px) and (width<=800px){
+    .adminproductdetail-size-back{
+    margin-bottom: 0px;
+}
+.adminproductdetails-half1{
+    height: 70%;
+}
+.adminproductdetails-image-back{
+}
+.adminproductdetails-small-images{
+        overflow: hidden;
+        margin: auto;
+}
+}

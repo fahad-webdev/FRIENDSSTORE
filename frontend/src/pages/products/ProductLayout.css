@@ -1,0 +1,20 @@
+
+.productlayout-main-back{
+    padding:0px;
+}
+.productlayout-main{
+    min-height: 100vh;
+}
+.productlayout-content-back{
+    background-image:linear-gradient(to right,rgba(0, 0, 0, 0.964) 10%,rgba(3, 3, 3, 0.709) 80%,rgba(0, 0, 0, 0.964)), url("../../assets/store-wall1.jpg");
+}
+.productlayout-content{
+    position: absolute;
+    top:50%;
+}
+.menslayout-content-back{
+    background-image:linear-gradient(to right,rgba(0, 0, 0, 0.964) 10%,rgba(3, 3, 3, 0.709) 80%,rgba(0, 0, 0, 0.964)), url("../../assets/mens-shoes.jpg");
+}
+.womenslayout-content-back{
+    background-image:linear-gradient(to right,rgba(0, 0, 0, 0.964) 10%,rgba(3, 3, 3, 0.709) 80%,rgba(0, 0, 0, 0.964)), url("../../assets/womens-store-wall1.jpg");
+}
