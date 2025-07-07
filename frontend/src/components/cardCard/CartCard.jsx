@@ -10,14 +10,8 @@ const CartCard = ({ cartItem, isSelected, handleProductToggle }) => {
   const { removeCart, updateCart } = useCart();
 
   const [quantity, setQuantity] = useState(cartItem.quantity);
+  const [productSize ,setProductSize] = useState(cartItem.size);
 
-  const subQuantity = () => {
-    if (quantity === 1) {
-      setQuantity(1);
-    } else {
-      setQuantity(quantity - 1);
-    }
-  };
 
   return (
     <>
@@ -41,7 +35,7 @@ const CartCard = ({ cartItem, isSelected, handleProductToggle }) => {
               onClick={() => {
                 const newQty = quantity + 1;
                 setQuantity(newQty);
-                updateCart(cartItem._id, newQty);
+                updateCart(cartItem._id, newQty,productSize);
               }}
               style={{ fontSize: "1rem", cursor: "pointer" }}
             />{" "}
@@ -51,19 +45,19 @@ const CartCard = ({ cartItem, isSelected, handleProductToggle }) => {
                 if (quantity > 1) {
                   const newQty = quantity - 1;
                   setQuantity(newQty);
-                  updateCart(cartItem._id, newQty);
+                  updateCart(cartItem._id, newQty,productSize);
                 }
               }}
               style={{ fontSize: "1rem", cursor: "pointer" }}
             />
 
             <h3>Size: </h3>
-            <p htmlFor="">{cartItem.size[0]}</p>
+            <p htmlFor="">{productSize}</p>
           </div>
         </div>
         <div className="cart-price-back">
           <img
-            onClick={() => removeCart(cartItem._id)}
+            onClick={() => removeCart(cartItem._id,productSize)}
             src={Cross}
             alt=""
             className="cross"

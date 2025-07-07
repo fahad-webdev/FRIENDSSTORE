@@ -7,9 +7,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import useRippleEffect from "../../hooks/UseRippleEffect.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import HeadAnimation from "../../hooks/HeadAnimation.js";
+import { useCart } from "../../context/CartContext.jsx";
+import { useWishlist } from "../../hooks/useWishlist.js";
 
 const ProductCard = ({ product  }) => {
-  const[addWishlist , setAddWishlist] = useState(false);
+  const {addToWishlist , fetchWishlist,wishlist} = useWishlist();
+  const {addToCart } = useCart();
+  const [productSize , setProductSize] = useState(product.size[0]);
   const [MouseOn, setMouseOn] = useState(false);
   const HandleClick = useRippleEffect();
   const Navigate = useNavigate();
@@ -17,9 +21,12 @@ const ProductCard = ({ product  }) => {
     setMouseOn(true);
   };
 
+
+
+/*
   const AddToWishlist = () =>{
     setAddWishlist(!addWishlist);
-  }
+  }*/
 
   const onMouseOut = () => {
     setMouseOn(false);
@@ -45,9 +52,9 @@ const ProductCard = ({ product  }) => {
           onMouseOut={onMouseOut}
         >
            <span className="fav-product-icon">
-              <FavoriteIcon onClick={()=>AddToWishlist()}
+              <FavoriteIcon onClick={()=>addToWishlist(product,productSize)}
               className="fav-icon"
-              style={{color:addWishlist?"#dcbd83":""}}/>
+              /*style={{color:addWishlist?"#dcbd83":""}}*//>
             </span>
           <img src={product.thumbnail} alt="" className="product-image" />
           
@@ -59,6 +66,7 @@ const ProductCard = ({ product  }) => {
             }}
           >
             <span
+            onClick={()=>addToCart(product,productSize)}
               className="add-product-icon"
               style={{
                 transform:
@@ -66,7 +74,6 @@ const ProductCard = ({ product  }) => {
               }}
             >
               <AddShoppingCartIcon
-              onClick={()=>OpenProductDetails(product)}
                 sx={{ color: "white" }}
                 style={{ fontSize: "1.5rem",fontWeight:"normal" }}
               />
@@ -90,7 +97,7 @@ const ProductCard = ({ product  }) => {
             <div className="size-back">
                 <div className="size-no">
                   {product?.size?.length > 0 ? product?.size?.map((size, index) => (
-                    <span key={index} className="size-item">
+                    <span key={index} className={`size-item ${productSize===size?"size-item-active":""}`} onClick={()=>{setProductSize(size)}}>
                       {size}
                     </span>
                   )):"N/A"}

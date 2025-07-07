@@ -3,12 +3,12 @@ import "./ProductForm.css";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import DoneIcon from "@mui/icons-material/Done";
 import { useNavigate } from "react-router-dom";
-import { useApi } from "../../../context/ApiContext";
+import { useGlobal } from "../../../context/GlobalContext";
 import { useProduct } from "../../../context/ProductContext";
 
 const AddProduct = () => {
   const Navigate =useNavigate();
-  const {setAlert} = useApi();
+  const {setAlert} = useGlobal();
   const { addProduct } = useProduct();
   const [thumbnail, setThumbnail] = useState(null);
   const [imagesPreview, setImagesPreview] = useState([]);

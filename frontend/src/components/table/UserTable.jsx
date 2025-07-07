@@ -2,22 +2,39 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/fs-logo.png";
 import "./Table.css";
-import { useUser } from "../../context/UserContext";
+import { useGlobal } from "../../context/GlobalContext";
+import { useUsers } from "../../hooks/useUsers";
 const UserTable = ({ filteredUsers }) => {
-  const { fetchUsers, users, deleteUser, loading } = useUser();
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  const { fetchUsers, deleteUser, loading } = useUsers();
+  const {setAlert ,setAlertBox} = useGlobal();
+
   const handleDeleteProduct = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this user?"
-    );
-    if (confirmDelete) {
-      await deleteUser(id);
-      alert("User Deleted Successfully");
-    }
-    fetchUsers();
+   
+    setAlertBox({
+      alert:true,
+      head:"Delete This User",
+      message:"Are you sure you want to delete this user?",
+      onConfirm:async ()=>{
+      const result = await deleteUser(id);
+      await fetchUsers();
+      //alert("User Deleted Successfully");
+      setAlert({
+          alert: true,
+          type: "success",
+          message: result.message,
+        });
+        setTimeout(() => {
+          setAlert({ alert: false, message: "", type: "" });
+          result.success;
+        }, 2500);
+      }
+    })
   };
+
+  const formatDate =(createdDate)=>{
+   const date = new Date(createdDate);
+   return date.toLocaleDateString("en-gb")
+  }
 
   const Navigate = useNavigate();
   return (
@@ -25,11 +42,12 @@ const UserTable = ({ filteredUsers }) => {
       <table className="top-product-table user-table">
         <thead>
           <tr>
-            <th className="profile-th1">Profile Pic</th>
+            <th className="profile-th1">Profile </th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>E-mail</th>
+            <th className="email-th">E-mail</th>
             <th>Role</th>
+            <th>Date Created</th>
             <th>Options</th>
           </tr>
         </thead>
@@ -39,7 +57,7 @@ const UserTable = ({ filteredUsers }) => {
               <td colSpan="6"></td>
             </tr>
           ) : filteredUsers.length > 0 ? (
-            [...filteredUsers].reverse().map((user) => (
+            [...filteredUsers].map((user) => (
               <tr key={user._id} className="table-row">
                 <td>
                   <div className="profile-pic-back">
@@ -50,6 +68,7 @@ const UserTable = ({ filteredUsers }) => {
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
+                <td>{formatDate(user.createdAt)}</td>
                 <td className="td7">
                   <div className="options-btn-back">
                     <button

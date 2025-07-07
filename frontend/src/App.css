@@ -41,6 +41,22 @@ h1 {
 /*=============================================================
                         animations 
 ===============================================================*/
+@keyframes alertBoxLand {
+    0% {
+        top: -16%;
+        opacity: 0;
+    }
+
+    75% {
+        top: 20%;
+        opacity: 1;
+    }
+
+    100% {
+        top: 16%;
+        opacity: 1;
+    }
+}
 
 @keyframes fadein {
     from {
@@ -274,7 +290,7 @@ h1 {
 }
 .alert-message p{
     padding:10px;
-    font-size: 20px;
+    font-size:clamp(0.8rem , 5vw , 1.2rem);
 }
 
 .alert-back .alert-icon{
@@ -296,6 +312,8 @@ h1 {
 .not-found-message {
   color: rgb(79, 33, 24);
   position: fixed;
+  width: 50%;
+  text-align: center;
   top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -311,5 +329,19 @@ h1 {
 
   .heading1::-webkit-scrollbar {
     display: none;
+  }
+  .alert-back .alert-icon{
+    width: 25px;
+  }
+  .alert-back .close{
+    width: 15px;
+  }
+  .alert-message p{
+    padding:8px;
+  }
+}
+@media (width>=1440px) and (width<=1920px){
+  .para{
+    font-size: 1rem;
   }
 }

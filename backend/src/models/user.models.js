@@ -46,12 +46,11 @@ const userSchema = new mongoose.Schema({
 //for bcrypting the password
 userSchema.pre("save",async function(next){
     if(!this.isModified("password")) return next();
-    const saltValue = 12;
+    const saltValue=12;
     this.password = await bcrypt.hash(this.password,saltValue);
-    this.paswordChangedAt = Date.now() - 1000 ;
+    this.passwordChangedAt = Date.now - 1000;
     next();
-})
-
+});
 //for comparing password
 userSchema.methods.comparePassword = async function(userPassword){
     return await bcrypt.compare(userPassword , this.password);

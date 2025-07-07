@@ -6,7 +6,9 @@ const TopProducts = () => {
    const {fetchProducts ,products} = useProduct();
     useEffect(()=>{
       fetchProducts();
-    },[])
+    },[]);
+
+    const sortByNewest = [...products].sort((a,b)=> b.price - a.price);
   return (
     <>
       <table className="top-product-table">
@@ -21,7 +23,7 @@ const TopProducts = () => {
         </thead>
         <tbody>
           {
-            products.map((product)=>(
+            sortByNewest.slice(0,3).map((product)=>(
               <tr key={product._id}>
             <td>
               <div className="td1">

@@ -4,11 +4,11 @@ import "./ProductForm.css";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useApi } from "../../../context/ApiContext";
-import { useUser } from "../../../context/UserContext";
+import { useGlobal } from "../../../context/GlobalContext";
+import { useUsers } from "../../../hooks/useUsers";
 const AddUser = () => {
-  const { createUser } = useUser();
-  const { setAlert } = useApi();
+  const { createUser } = useUsers();
+  const { setAlert } = useGlobal();
   const Navigate = useNavigate();
   const [ShowPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -59,7 +59,7 @@ const AddUser = () => {
         return false;
       }
 
-      const emailRegex = /^[A-Za-z0-9._%+-]+@gmail\.com$/;
+const emailRegex = /^[A-Za-z0-9._%+-]+@gmail\.com$/i;
       if (!emailRegex.test(formData.email)) {
         setError((prev) => ({
           ...prev,
@@ -208,7 +208,7 @@ const AddUser = () => {
                 <label htmlFor="">Role:</label>
                 <div className="user-role-back">
                   <span
-                    onClick={() => setFormData({ role: "admin" })}
+                    onClick={() => setFormData(prev => ({ ...prev, role: "admin" }))}
                     className={
                       formData.role === "admin"
                         ? "user-role-active"
@@ -218,7 +218,7 @@ const AddUser = () => {
                     Admin
                   </span>
                   <span
-                    onClick={() => setFormData({ role: "user" })}
+                    onClick={() => setFormData(prev => ({ ...prev, role: "user" }))}
                     className={
                       formData.role === "user"
                         ? "user-role-active"

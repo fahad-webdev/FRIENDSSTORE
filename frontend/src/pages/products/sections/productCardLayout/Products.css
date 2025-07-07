@@ -41,3 +41,10 @@
     font-size: 1rem;
    }
 }
+@media (width>=1440px) and (width<=2000px){
+    .products-content-back{
+    width: 90%;
+    
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}

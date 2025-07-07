@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useApi } from "../../../../context/ApiContext.jsx";
+import { useGlobal } from "../../../../context/GlobalContext.jsx";
 import ProductCard from "../../../../components/productCard/ProductCard.jsx";
 import { useLocation } from "react-router-dom";
 import Logo from "../../../../assets/fs-logo.png";
 import { useProduct } from "../../../../context/ProductContext.jsx";
 const ProductsCollection = () => {
-  const { SearchQuery } = useApi();
+  const { SearchQuery } = useGlobal();
   const {products, fetchProducts, loading} = useProduct();
   const [productDetails, setProductDetails] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);

@@ -2,15 +2,28 @@ import { React, useState } from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 import Logo from "../../assets/logo.png";
-import { useApi } from "../../context/ApiContext";
+import { useGlobal } from "../../context/GlobalContext";
+import { useAuth } from "../../context/AuthContext";
 const Navbar = () => {
-  const {searchOpen, setSearchOpen,sidebar, setSidebar} = useApi();
+  const { user } = useAuth();
+  const {
+    searchOpen,
+    setSearchOpen,
+    sidebar,
+    setSidebar,
+    useProfileDrop,
+    setUserProfileDrop,
+  } = useGlobal();
   const toggleSearch = () => {
     setSearchOpen(searchOpen === "close" ? "open" : "close");
   };
   const toggleSidebar = () => {
     setSidebar(!sidebar);
   };
+  const handleDropDown = () => {
+    setUserProfileDrop(useProfileDrop ? false : true);
+  };
+
   const categoryFilterArray = [];
   const mensHeading = `MEN'S`;
   const mensPara = `Elevate your style with our premium men's collection! From sleek formal shoes to rugged boots, trendy loafers, and ultra-comfortable hoodies, we bring you fashion that blends sophistication with everyday ease. Designed for the modern man who values both style and quality, our collection ensures you look sharp and feel confident no matter the occasion. Shop now and upgrade your wardrobe with timeless essentials!`;
@@ -28,7 +41,16 @@ const Navbar = () => {
               <NavLink to="/contact">CONTACT</NavLink>
             </li>
             <li>
-              <NavLink to="/form">LOGIN</NavLink>
+              {user ? (
+                <div className="profile-back">
+                  <img className="profile-small-img" src={user.profilePic} alt="" />
+                  <label onClick={handleDropDown} style={{ cursor: "pointer" }}>
+                    {user.firstName}
+                  </label>
+                </div>
+              ) : (
+                <NavLink to="/form">LOGIN</NavLink>
+              )}
             </li>
           </ul>
         </div>
@@ -42,18 +64,16 @@ const Navbar = () => {
           </div>
 
           <li className="head-back">
-            <NavLink
-              to="/"
-              className="h1"
-            >
+            <NavLink to="/" className="h1">
               FRIENDSSTORE
             </NavLink>
           </li>
           <ul>
             <li>
               <NavLink
-                className={({isActive})=>
-                isActive?"active-link" : "link"}
+                className={({ isActive }) =>
+                  isActive ? "active-link" : "link"
+                }
                 to="/mens"
                 end
                 state={{
@@ -105,15 +125,6 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              {/*
-             <NavLink className={activeLink==="sales"?"active-link":"link" }
-            to="/collections"
-            state={{heading:"FINALE SALES 50%",para:salesPara ,categoryFilterArray:["shoes","men's shoes","women's shoes"]}}
-            onClick={()=>isActiveLink("sales","sales")}
-            >
-             SALES
-            </NavLink>
-            */}
               <NavLink
                 to="/shopping-cart"
                 end
@@ -122,6 +133,17 @@ const Navbar = () => {
                 }
               >
                 MY CART
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/profile"
+                end
+                className={({ isActive }) =>
+                  isActive ? "active-link" : "link"
+                }
+              >
+                WISHLIST
               </NavLink>
             </li>
             <li>

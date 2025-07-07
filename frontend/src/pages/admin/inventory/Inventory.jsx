@@ -4,17 +4,20 @@ import InventoryTable from "../../../components/table/InventoryTable";
 import { useNavigate } from "react-router-dom";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import useRippleEffect from "../../../hooks/UseRippleEffect";
-import { useApi } from "../../../context/ApiContext";
+import { useGlobal } from "../../../context/GlobalContext";
 import { useProduct } from "../../../context/ProductContext";
 const Inventory = () => {
   const HandleClick = useRippleEffect();
   const { fetchProducts, products } = useProduct();
-  const {setSearchOpen , SearchQuery} = useApi();
+  const {setSearchOpen , SearchQuery} = useGlobal();
   useEffect(() => {
     fetchProducts();
   }, []);
 
-   const filteredProducts = products.filter(
+
+  const sortByNewest = [...products].sort((a , b)=> new Date(b.createdAt) - new Date(a.createdAt));
+
+   const filteredProducts = sortByNewest.filter(
     (product) =>
       product.title.toLowerCase().includes(SearchQuery.toLowerCase()) ||
       product.category.toLowerCase().includes(SearchQuery.toLowerCase())

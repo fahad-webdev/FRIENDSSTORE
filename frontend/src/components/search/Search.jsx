@@ -2,10 +2,10 @@ import React from 'react';
 import "./Search.css";
 import Cross from '../../assets/cancel.png';
 import SearchIcon from '../../assets/search.png';
-import { useApi } from '../../context/ApiContext';
+import { useGlobal } from '../../context/GlobalContext';
 
 const Search = () =>{
-   const {SearchQuery,setSearchQuery,searchOpen,setSearchOpen} = useApi();
+   const {SearchQuery,setSearchQuery,searchOpen,setSearchOpen} = useGlobal();
 
     return(
         <>

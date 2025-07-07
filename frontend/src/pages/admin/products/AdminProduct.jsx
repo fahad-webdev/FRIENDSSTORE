@@ -3,17 +3,19 @@ import "./AdminProduct.css";
 import AdminProductCard from "../../../components/addProductCard/AdminProductCard";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import Logo from "../../../assets/fs-logo.png";
-import { useApi } from "../../../context/ApiContext";
+import { useGlobal } from "../../../context/GlobalContext";
 import { useProduct } from "../../../context/ProductContext";
 const AdminProduct = () => {
   const { fetchProducts, products, loading } = useProduct();
-  const { SearchQuery, setSearchOpen } = useApi();
+  const { SearchQuery, setSearchOpen } = useGlobal();
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  const filteredProducts = products.filter(
+  const sortByNewest = [...products].sort((a , b)=> new Date(b.createdAt) - new Date(a.createdAt));
+
+  const filteredProducts = sortByNewest.filter(
     (product) =>
       product.title.toLowerCase().includes(SearchQuery.toLowerCase()) ||
       product.category.toLowerCase().includes(SearchQuery.toLowerCase())
@@ -41,7 +43,6 @@ const AdminProduct = () => {
           <div className="admin-products-back">
             {filteredProducts.length > 0 ? (
               [...filteredProducts]
-                .reverse()
                 .map((product) => (
                   <AdminProductCard
                     key={product._id}

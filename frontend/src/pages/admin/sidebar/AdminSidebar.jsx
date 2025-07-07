@@ -1,15 +1,33 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink , useNavigate} from "react-router-dom";
 import "./AdminSidebar.css";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import LogoutIcon from "@mui/icons-material/Logout";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import PeopleIcon from '@mui/icons-material/People';
-import { useUser } from "../../../context/UserContext";
+import { useGlobal } from "../../../context/GlobalContext";
+import { useAuth } from "../../../context/AuthContext";
 
 const AdminSidebar = ({ sidebar}) => {
-  const {logout } = useUser();
+  const {logout } = useAuth();
+  const {setAlert} = useGlobal();
+
+  const Navigate = useNavigate();
+  const handleLogout =async ()=>{
+    const result = await logout();
+    if(result){
+      setAlert({
+        alert: true,
+        message: result.message,
+        type: "success",
+      });
+      setTimeout(() => {
+        setAlert({ alert: false, message: "", type: "" });
+        Navigate("/form");
+      }, 2500);
+    }
+  }
   return (
     <>
       <div
@@ -118,7 +136,8 @@ const AdminSidebar = ({ sidebar}) => {
           </li>
         </ul>
         <div className="logout-back"
-        onClick={logout}>
+        onClick={handleLogout}
+        >
           <li className={sidebar ? "side-link-active" : "side-link"}>
             <LogoutIcon className="icons" /> Logout
           </li>

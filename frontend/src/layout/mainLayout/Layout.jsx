@@ -5,11 +5,12 @@ import Search from "../../components/search/Search";
 import Contact from "../../components/contact/Contact.jsx";
 import "./Layout.css";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
-import { useApi } from "../../context/ApiContext.jsx";
-
+import { useGlobal } from "../../context/GlobalContext.jsx";
+import UserProfile from "../../components/dropDown/UserProfile.jsx";
+import Alerts from "../../components/alert/Alerts.jsx"
 const Layout = () => {
   //hooks
-  const {searchOpen, setSearchOpen} = useApi();
+  const {searchOpen, setSearchOpen} = useGlobal();
 
   const ScrollIntoView = (id) => {
     let sectionId = document.getElementById(id);
@@ -17,10 +18,7 @@ const Layout = () => {
       sectionId.scrollIntoView({ behavior: "smooth" });
     }
   };
-  const isActiveLink = (link, id) => {
-    setActiveLink(link);
-    ScrollIntoView(id);
-  };
+
   //useEffect hook to scroll to the top of the page when the page reload
   const location = useLocation(); //useLocation hook to get the current pathname of route
   useEffect(() => {
@@ -29,12 +27,11 @@ const Layout = () => {
   return (
     <>
       <Search setSearchOpen={setSearchOpen} searchOpen={searchOpen} />
-      <Navbar
-      />
-      <Sidebar
-        
-      />
-      <Outlet isActiveLink={isActiveLink} />
+      <Navbar/>
+      <Alerts />
+      <UserProfile/>
+      <Sidebar/>
+      <Outlet  />
       <Contact />
     </>
   );

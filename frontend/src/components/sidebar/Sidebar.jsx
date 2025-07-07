@@ -1,9 +1,9 @@
 import React from "react";
 import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
-import { useApi } from "../../context/ApiContext";
+import { useGlobal } from "../../context/GlobalContext";
 const Sidebar = () => {
-  const {sidebar, setSidebar , setSearchOpen ,searchOpen} = useApi();
+  const {sidebar, setSidebar , setSearchOpen ,searchOpen} = useGlobal();
   const categoryFilterArray = [];
   const mensHeading = `MEN'S`;
   const mensPara = `Elevate your style with our premium men's collection! From sleek formal shoes to rugged boots, trendy loafers, and ultra-comfortable hoodies, we bring you fashion that blends sophistication with everyday ease. Designed for the modern man who values both style and quality, our collection ensures you look sharp and feel confident no matter the occasion. Shop now and upgrade your wardrobe with timeless essentials!`;

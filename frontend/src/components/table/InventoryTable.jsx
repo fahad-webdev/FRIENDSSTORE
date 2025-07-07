@@ -2,34 +2,34 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/fs-logo.png";
 import "./Table.css";
-import { useApi } from "../../context/ApiContext";
+import { useGlobal } from "../../context/GlobalContext";
 import { useProduct } from "../../context/ProductContext";
-const InventoryTable = ({ filteredProducts ,setAfterDelete}) => {
-  const {setAlert} = useApi();
+const InventoryTable = ({ filteredProducts }) => {
+  const { setAlert, setAlertBox } = useGlobal();
   const { fetchProducts, deleteProduct, products, loading } = useProduct();
 
-   useEffect(() => {
-    fetchProducts();
-  }, []);
 
   const handleDeleteProduct = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this product?"
-    );
-    if (confirmDelete) {
-      const result = await deleteProduct(id);
-      //alert("Product Deleted Successfully");
-      setAlert({
-        alert:true,
-        type: "success",
-        message: result.message 
-      });
-      setAfterDelete(true);
-       setTimeout(() => {
+    setAlertBox({
+      alert: true,
+      head: "Delete This Product",
+      message: "Are you sure you want to delete this product?",
+      onConfirm: async () => {
+        const result = await deleteProduct(id);
+        //alert("Product Deleted Successfully");
+        await fetchProducts();
+        setAlert({
+          alert: true,
+          type: "success",
+          message: result.message,
+        });
+        setTimeout(() => {
           setAlert({ alert: false, message: "", type: "" });
           result.success;
         }, 2500);
-    }
+      },
+    });
+    
   };
 
   const Navigate = useNavigate();
@@ -53,7 +53,7 @@ const InventoryTable = ({ filteredProducts ,setAfterDelete}) => {
               <td colSpan="7" style={{ textAlign: "center" }}></td>
             </tr>
           ) : filteredProducts.length > 0 ? (
-            [...filteredProducts].reverse().map((product) => (
+            [...filteredProducts].map((product) => (
               <tr key={product._id} className="table-row">
                 <td>
                   <div className="td1">

@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import "./Login.css";
-import { useUser } from "../../context/UserContext";
+import { useAuth } from "../../context/AuthContext";
 const Login = ({ setFormType, setAlert }) => {
-  const { loginUser } = useUser();
+  const {verifyUser,loginUser} = useAuth();
   const [ShowPassword, setShowPassword] = useState(false);
   const [form, setform] = useState({
     email: "",
@@ -79,9 +79,14 @@ const Login = ({ setFormType, setAlert }) => {
         setTimeout(() => {
           setAlert({ alert: false, message: "", type: "" });
         }, 2500);
-        if(result.success){
-           const role = result.role;
-           role==="admin"?navigate("/admin"):(role==="user"?navigate("/"):navigate("/form"));
+        if (result.success) {
+          await verifyUser();
+          const role = result?.role;
+          role === "admin"
+            ? navigate("/admin")
+            : role === "user"
+            ? navigate("/")
+            : navigate("/form");
         }
       } catch (error) {
         // Display error from the response

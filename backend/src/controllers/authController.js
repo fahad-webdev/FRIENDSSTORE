@@ -18,7 +18,7 @@ const login = async (req, res) => {
     //setup for JWT
     const token = jwt.sign(
       {
-        id: user._id,
+        _id: user._id,
         role: user.role,
       },
       process.env.JWT_SECRET,
@@ -31,14 +31,14 @@ const login = async (req, res) => {
       .cookie("token", token, {
         httpOnly: true,
         sameSite: "Lax",
-        secure: process.env.NODE_ENV === "productio",
+        secure: process.env.NODE_ENV === "productio",//should not be equal in development mode 
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       })
       .status(200)
       .json({
         message: "Success! Login successful",
         user: {
-          id: user._id,
+          _id: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
@@ -47,7 +47,7 @@ const login = async (req, res) => {
       });
   } catch (error) {
     console.log("error login :: ", error);
-    res.status(500).json({ message: "internal server error :: ",error });
+    res.status(500).json({ message: "internal server error  ",error });
   }
 };
 
@@ -96,44 +96,7 @@ const logout = async (req,res) =>{
   res.status(200).json({ message: "Logout successful" });
 };
 
-const userProfile = async (req, res) => {
-  try {
-    const user = await User.findById(req.body.id).select("-password");
-    if (!user) {
-      return res.status(404).json({ message: "User not found..." });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    console.error("Error fetching user profile:", error);
-    res.status(500).json({ message: "Error fetching user profile" });
-  }
-};
 
-const allUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json({ message: "User Fetch Successfully", users });
-  } catch (error) {
-    res.status(400).json({ message: "No User Found" });
-    console.log("error fetching Users :: ", error);
-  }
-};
 
-const deleteUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deleteUser = await User.findByIdAndDelete({ _id: id });
-    if (!deleteUser) {
-      res.status(404).json({ success: false, message: "User Not Found" });
-    }
-    res
-      .status(200)
-      .json({ success: true, message: "User deleted successfully" });
-  } catch (error) {
-    res
-      .status(400)
-      .json({ success: false, message: "Error deleting product", error });
-  }
-};
 
-module.exports = { register, login ,logout,userProfile, allUsers , deleteUser };
+module.exports = { register, login ,logout };

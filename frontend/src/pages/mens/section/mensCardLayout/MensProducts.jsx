@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ProductCard from "../../../../components/productCard/ProductCard.jsx";
 import { useLocation } from "react-router-dom";
-import { useApi } from "../../../../context/ApiContext";
+import { useGlobal } from "../../../../context/GlobalContext";
 import Logo from "../../../../assets/fs-logo.png";
 import { useProduct } from "../../../../context/ProductContext.jsx";
 
 const MensProducts = () => {
-  const { SearchQuery } = useApi();
+  const { SearchQuery } = useGlobal();
   const { products, fetchProducts, loading } = useProduct();
   const location = useLocation();
 

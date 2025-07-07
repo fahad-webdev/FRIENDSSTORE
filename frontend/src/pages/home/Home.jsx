@@ -33,7 +33,7 @@ const Home = () => {
               ELEVATE YOUR GAME
             </h1>
             <div className="content-detail">
-              <p>
+              <p className="">
                 Fashion is more than just clothing—it's a way to express
                 yourself and connect with others. At FRIENDSSTORE, we bring you
                 the trendiest styles, premium quality, and effortless fashion to

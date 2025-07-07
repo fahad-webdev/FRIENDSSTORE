@@ -9,11 +9,19 @@ import { useProduct } from "../../context/ProductContext";
 const ProductDetails = () => {
   const { getProductById, product, loading } = useProduct();
   const [selectedImage, setSelectedImage] = useState("");
+  const [productSize , setProductSize ] = useState("");
   const [viewReview, setViewReview] = useState(false);
   const [isActive, setIsActive] = useState("reviews");
   const navigate = useNavigate();
   const { id } = useParams();
   const {addToCart} = useCart();
+
+  useEffect(()=>{
+   if (product?.size?.length > 0) {
+    setProductSize(product.size[0]);
+  }
+  },[product])
+
   // Function to find product by ID
   const toggleViewReview = () => setViewReview(!viewReview);
   const ToggleOption = () =>
@@ -70,7 +78,8 @@ const ProductDetails = () => {
               className="productdetails-info-back"
               style={{ display: viewReview ? "none" : "block" }}
             >
-              <h5>{product.category}</h5>
+              <div className="productdetails-info">
+                <h5>{product.category}</h5>
               <div className="product-heading">
                 <div className="heading-back">
                   <h2>{product.title} </h2>
@@ -96,7 +105,7 @@ const ProductDetails = () => {
                   <div className="size-no">
                     {product?.size?.length > 0
                       ? product?.size?.map((size, index) => (
-                          <span key={index} className="size-item">
+                          <span key={index} className={`size-item ${productSize===size?"size-item-active":""}`} onClick={()=>setProductSize(size)}>
                             {size}
                           </span>
                         ))
@@ -106,9 +115,10 @@ const ProductDetails = () => {
               </div>
               <div className="detail-btn-back">
                 <button
-                onClick={()=>addToCart(product)}
+                onClick={()=>addToCart(product,productSize)}
                 className="detail-btn card-btn">ADD TO CART</button>
                 <button className="detail-btn card-btn">BUY NOW</button>
+              </div>
               </div>
               <div className="reviews-back">
                 <div className="review-heading">

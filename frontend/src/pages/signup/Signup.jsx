@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useApi } from "../../context/ApiContext";
-import { useUser } from "../../context/UserContext";
+import { useGlobal } from "../../context/GlobalContext";
+import { useAuth } from "../../context/AuthContext";
 
 const Signup = ({  setFormType }) => {
-  const { createUser } = useUser();
-  const { setAlert} = useApi();
+  const { register } = useAuth();
+  const { setAlert} = useGlobal();
   const [ShowPassword, setShowPassword] = useState(false);
   const [form, setform] = useState({
     firstName: "",
@@ -84,7 +84,7 @@ const Signup = ({  setFormType }) => {
     e.preventDefault();
     if (checkValidation()) {
       try {
-        const result = await createUser(form);
+        const result = await register(form);
         setAlert({ alert: true, message: result.message, type: result.success?"success":"danger" });
         setTimeout(() => {
           setAlert({ alert: false, message: "", type: "" });

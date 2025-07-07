@@ -3,18 +3,20 @@ import PeopleIcon from '@mui/icons-material/People';
 import UserTable from '../../../components/table/UserTable';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApi } from '../../../context/ApiContext';
-import { useUser } from '../../../context/UserContext';
+import { useGlobal } from '../../../context/GlobalContext';
+import { useUsers } from '../../../hooks/useUsers';
 
 const User = () => {
   const Navigate =useNavigate();
-  const {setSearchOpen ,SearchQuery} = useApi();
-    const { fetchUsers ,users } =useUser();
+  const {setSearchOpen ,SearchQuery} = useGlobal();
+    const { fetchUsers ,users } =useUsers();
     useEffect(()=>{
       fetchUsers();
     },[])
 
-    const filteredUsers = users.filter(
+    const sortByNewest = [...users].sort((a , b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    const filteredUsers = sortByNewest.filter(
     (user) =>
       user.firstName.toLowerCase().includes(SearchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(SearchQuery.toLowerCase()) ||

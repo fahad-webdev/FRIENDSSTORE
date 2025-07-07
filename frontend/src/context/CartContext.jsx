@@ -1,28 +1,159 @@
 import { createContext, useContext, useState, useEffect, useRef } from "react";
+import { useAuth } from "./AuthContext";
+import axios from "axios";
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const { user, isAuthentic, verifyUser } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const hasMounted = useRef(false); // Prevents early sync on load
 
-  // Load from localStorage on first mount
   useEffect(() => {
-    const stored = localStorage.getItem("GuestCart");
-    if (stored) {
+    verifyUser();
+  }, []);
+  const normalizeCartItems = (
+    items //to normalize the cart structure suitable for both backend and localstorage
+  ) =>
+    items.map((item) => ({
+      ...item.productID, // pull title, price, etc.
+      quantity: item.quantity,
+      size:item.size,
+    }));
+  const getCart = async () => {
+    try {
+      const url = `http://192.168.1.109:5000/api/cart`;
+      const response = await axios.get(url, { withCredentials: true });
+      const cart = response.data.cart || [];
+      //console.log("cart fetched successfully (database) :: ", cart);
+      setCartItems(normalizeCartItems(cart.items));
+    } catch (error) {
+      console.log("error! fetching cart failed (database) :: ", error);
+    }
+  };
+  //function to add product to cart
+  const addToCart = async (product, size) => {
+    if (product.stock >= 5) {
+      if (!user) {
+        const exist = cartItems.find(
+          (cartItem) => cartItem._id === product._id && cartItem.size === size
+        );
+
+        if (exist) {
+          setCartItems(
+            cartItems.map((cartItem) =>
+              cartItem._id === product._id
+                ? { ...cartItem, quantity: cartItem.quantity + 1,size }
+                : cartItem
+            )
+          );
+          //console.log("Product added to cart (localstorage)");
+          alert("Product Added to Cart");
+          getCart(); //to refresh the list
+        } else {
+          alert("Product Added to Cart");
+          return setCartItems([...cartItems, { ...product, quantity: 1, size }]);
+        }
+      } else {
+        const url = `http://192.168.1.109:5000/api/cart/add`;
+        const response = await axios.post(
+          url,
+          {
+            productID: product._id,
+            quantity: 1,
+            size,
+          },
+          { withCredentials: true }
+        );
+        //console.log("cart added (database):: ", response.data.cart);
+        alert("Product Added to Cart");
+        getCart(); //to refresh the list
+      }
+    } else {
+      alert("This product is in low stock");
+    }
+  };
+
+  const updateCart = async (productId, quantity , size ) => {
+    if (!user) {
+      setCartItems(
+        cartItems.map((cartItem) =>
+          (cartItem._id === productId && cartItem.size === size)
+            ? { ...cartItem, quantity: quantity  }
+            : cartItem
+        )
+      );
+    } else {
       try {
-        const parsed = JSON.parse(stored);
-        setCartItems(parsed);
-        console.log("Initial Load:", parsed);
-      } catch (e) {
-        console.error("Error parsing stored cart:", e);
+        const url = `http://192.168.1.109:5000/api/cart/update`;
+      const response = await axios.put(url,
+        {productID:productId,quantity,size },
+        {withCredentials:true}
+      );
+      //alert("Cart updated successfully");
+      //console.log("Cart updated successfully (database) :: ",response.data.cart);
+      getCart();
+      } catch (error) {
+        console.log("Error! updating cart ",error);
       }
     }
-  }, []);
+  };
+
+  const removeCart = async (productId ,size) => {
+    if (!user) {
+      setCartItems(cartItems.filter((cartItem)=>!(cartItem._id===productId && cartItem.size===size)));
+
+    } else {
+      try {
+        const url = `http://192.168.1.109:5000/api/cart/remove`;
+        const response = await axios.delete(url, {
+          withCredentials: true,
+          data: { productID: productId , size }, // Important: Send body this way with axios.delete
+        });
+        console.log("cart deleted successfully (database) :: ",response.data.cart);
+        getCart(); //to refresh the list
+      } catch (error) {
+        console.log("error deleting cart (database) : ", error);
+      }
+    }
+  };
+
+  const clearCart = async () => {
+    if (!user) {
+      localStorage.removeItem("GuestCart");
+      setCartItems([]);
+    } else {
+      try {
+        const url = `http://192.168.1.109:5000/api/cart/clear`;
+        const response = await axios.put(url, {}, { withCredentials: true });
+        getCart();
+      } catch (error) {
+        console.log("Error! clearning cart :: ", error);
+      }
+    }
+  };
+
+  // Load from localStorage on first mount
+  useEffect(() => {
+    if (!user) {
+      const stored = localStorage.getItem("GuestCart");
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          setCartItems(parsed);
+          console.log("Initial Load:", parsed);
+        } catch (error) {
+          console.error("Error parsing stored cart:", error);
+        }
+      }
+    } else {
+      getCart();
+    }
+  }, [user]);
 
   // Only sync to localStorage after initial load
   useEffect(() => {
-    if (hasMounted.current) {
+    if (!user && hasMounted.current) {
       console.log("Syncing to localStorage:", cartItems);
       localStorage.setItem("GuestCart", JSON.stringify(cartItems));
     } else {
@@ -30,49 +161,10 @@ export const CartProvider = ({ children }) => {
     }
   }, [cartItems]);
 
-  const addToCart = (product) => {
-    const exist = cartItems.find((cartItem) => cartItem._id === product._id);
-
-    if (exist) {
-      setCartItems(
-        cartItems.map((cartItem) =>
-          cartItem._id === product._id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        )
-      );
-      alert("Product Added to Cart");
-    } else {
-      if (product.stock >= 5) {
-        alert("Product Added to Cart");
-        return setCartItems([...cartItems, { ...product, quantity: 1 }]);
-      } else {
-        return alert("Product is in low stock");
-      }
-    }
-  };
-
-  const updateCart = (productId, quantity) => {
-    setCartItems(
-      cartItems.map((cartItem) =>
-        cartItem._id === productId
-          ? { ...cartItem, quantity: quantity }
-          : cartItem
-      )
-    );
-  };
-
-  const removeCart = (productId) => {
-    setCartItems(cartItems.filter((cartItem) => cartItem._id !== productId));
-  };
-
-  const clearCart = () => {
-    localStorage.removeItem("GuestCart");
-    setCartItems([]);
-  };
   return (
     <CartContext.Provider
       value={{
+        getCart,
         addToCart,
         clearCart,
         updateCart,

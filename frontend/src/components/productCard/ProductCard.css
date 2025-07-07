@@ -69,7 +69,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 210px;
+    height: 50%;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -166,7 +166,11 @@
     cursor: pointer;
     transition: 0.3s;
 }
-
+.size-back .size-no .size-item-active{
+    background-color:#c7a464e6 ;
+    outline: 1px solid #c7a464e6;
+    color:white;
+}
 .rating .icon-back {
     display: flex;
 }
@@ -252,5 +256,13 @@
     .card-btn {
         width: 90%;
         border-radius: 15px;
+    }
+}
+
+@media (width>=1440px) and (width<=1920px){
+    .products-card {
+        height: 500px;
+        width: 300px;
+        margin-bottom: 10px;
     }
 }

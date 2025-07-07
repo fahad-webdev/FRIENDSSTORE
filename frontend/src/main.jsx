@@ -24,8 +24,9 @@ import AddProduct from "./pages/admin/form/AddProduct.jsx";
 import UpdateProduct from "./pages/admin/form/UpdateProduct.jsx";
 import User from "./pages/admin/user/User.jsx";
 import AddUser from "./pages/admin/form/AddUser.jsx";
-import ProtectedRoute from "./features/routes/ProtectedRoutes.jsx";
+import ProtectedRoute from "./routes/ProtectedRoutes.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import ProfileLayout from "./pages/profile/Layout.jsx";
 
 const Route = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const Route = createBrowserRouter([
             element: <ContactLayout />,
             path: "/contact",
           },
+          {
+            element:<ProfileLayout/>,
+            path:"/profile"
+          }
         ],
       },
       {
@@ -79,7 +84,7 @@ const Route = createBrowserRouter([
       },
       {
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <ProtectedRoute allowedRoles="admin">
             <AdminLayout />
           </ProtectedRoute>
         ),

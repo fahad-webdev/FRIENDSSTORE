@@ -8,10 +8,10 @@ import danger from "../../assets/danger.png";
 import close from "../../assets/close-alert.png";
 import closeSuccess from "../../assets/close-success.png";
 import success from "../../assets/success.png";
-import { useApi } from "../../context/ApiContext.jsx";
+import { useGlobal } from "../../context/GlobalContext.jsx";
 const Form = () => {
   const Navigate = useNavigate();
-  const {setAlert,alert} =useApi();
+  const {setAlert,alert} =useGlobal();
   const [formType, setFormType] = useState("login");
    
   return (
@@ -34,7 +34,7 @@ const Form = () => {
                   src={ThinArrow}
                   alt=""
                   className="arrow"
-                  onClick={() => Navigate(-1)}
+                  onClick={() => Navigate("/")}
                 />
                 <h1>
                   welcome to

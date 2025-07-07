@@ -4,10 +4,10 @@ import CartCard from '../../../../components/cardCard/CartCard';
 import Check from '../../../../assets/check.png';
 import DeleteIcon from "../../../../assets/bin.png";
 import { useCart } from '../../../../context/CartContext';
-import { useApi } from '../../../../context/ApiContext';
+import { useGlobal } from '../../../../context/GlobalContext';
 
 const AddToCard = () => {
-  const {SearchQuery} = useApi();
+  const {SearchQuery , setAlertBox} = useGlobal();
   const { cartItems, clearCart } = useCart(); // get from context
   const [selectedProductIds, setSelectedProductIds] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -49,12 +49,19 @@ const AddToCard = () => {
   };
 
   const handleClearCart = () => {
-   if(window.confirm("Are your sure you want to clear cart?")){
-     clearCart();
+    cartItems.length>0?
+    setAlertBox({
+      alert:true,
+      head:"Clear Your Cart",
+      message:"Are you sure you want to clear your cart?",
+      onConfirm:()=>{
+         clearCart();
     setSelectedProductIds([]);
     setTotalPrice(0);
     setSelectAll(false);
-  }
+      },
+    })
+    :""
   };
 
   const FilterCart = cartItems.filter((cartItem)=>
@@ -82,7 +89,7 @@ const AddToCard = () => {
         {FilterCart.length > 0 ? (
           FilterCart.reverse().map((cartItem) => (
             <CartCard
-              key={cartItem._id}
+              key={`${cartItem._id}-${cartItem.size}`}//create unique id by adding size with _id so react won't get confuse 
               cartItem={cartItem}
               isSelected={selectedProductIds.includes(cartItem._id)}
               handleProductToggle={handleProductToggle}

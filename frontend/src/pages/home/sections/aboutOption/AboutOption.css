@@ -1,7 +1,6 @@
 .aboutoption-main-back{
     border-top:1px solid rgb(194, 174, 138);
-    min-height: 110vh;
-    background-color: pink;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +11,7 @@
     flex-direction: column;
     padding:0px 30px;
     /*background-color: yellow;*/
-    
+    padding-bottom: 20px;
 }
 .aboutoption-main .heading1{
     
@@ -44,7 +43,7 @@
 .aboutoption-content .aboutoption-image{
     opacity: 0;
     width:90%;
-    height: 400px;
+    height: 66vh;
     background-image: linear-gradient(to right, rgba(228, 199, 145, 0.393), rgba(211, 211, 211, 0.278) 80%, rgba(227, 202, 156, 0.665)), url("../../../../assets/home-background1.jpg") ;
     background-position: center;
     background-size:cover;

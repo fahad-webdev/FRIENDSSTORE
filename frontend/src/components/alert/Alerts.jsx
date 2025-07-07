@@ -1,5 +1,5 @@
 import React from "react";
-import { useApi } from "../../context/ApiContext";
+import { useGlobal } from "../../context/GlobalContext";
 import success from "../../assets/success.png";
 import danger from "../../assets/danger.png";
 import close from "../../assets/close-alert.png";
@@ -7,7 +7,7 @@ import closeSuccess from "../../assets/close-success.png";
 
 import "./Alerts.css";
 const Alerts = () => {
-  const { setAlert, alert } = useApi();
+  const { setAlert, alert } = useGlobal();
   return (
     <>
       <div
