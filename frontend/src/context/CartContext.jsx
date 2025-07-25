@@ -7,28 +7,30 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const { user, isAuthentic, verifyUser } = useAuth();
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(false);
   const hasMounted = useRef(false); // Prevents early sync on load
 
   useEffect(() => {
     verifyUser();
   }, []);
-  const normalizeCartItems = (
-    items //to normalize the cart structure suitable for both backend and localstorage
-  ) =>
+  const normalizeCartItems = (items) =>
     items.map((item) => ({
       ...item.productID, // pull title, price, etc.
       quantity: item.quantity,
-      size:item.size,
+      size: item.size,
     }));
   const getCart = async () => {
+     setLoading(true);
     try {
       const url = `http://192.168.1.109:5000/api/cart`;
       const response = await axios.get(url, { withCredentials: true });
-      const cart = response.data.cart || [];
       //console.log("cart fetched successfully (database) :: ", cart);
-      setCartItems(normalizeCartItems(cart.items));
+      setCartItems(response.data.cart.items);
     } catch (error) {
       console.log("error! fetching cart failed (database) :: ", error);
+    }
+    finally{
+      setLoading(false);
     }
   };
   //function to add product to cart
@@ -43,7 +45,7 @@ export const CartProvider = ({ children }) => {
           setCartItems(
             cartItems.map((cartItem) =>
               cartItem._id === product._id
-                ? { ...cartItem, quantity: cartItem.quantity + 1,size }
+                ? { ...cartItem, quantity: cartItem.quantity + 1, size }
                 : cartItem
             )
           );
@@ -52,7 +54,10 @@ export const CartProvider = ({ children }) => {
           getCart(); //to refresh the list
         } else {
           alert("Product Added to Cart");
-          return setCartItems([...cartItems, { ...product, quantity: 1, size }]);
+          return setCartItems([
+            ...cartItems,
+            { ...product, quantity: 1, size },
+          ]);
         }
       } else {
         const url = `http://192.168.1.109:5000/api/cart/add`;
@@ -74,44 +79,51 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const updateCart = async (productId, quantity , size ) => {
+  const updateCart = async (productId, quantity, size) => {
     if (!user) {
       setCartItems(
         cartItems.map((cartItem) =>
-          (cartItem._id === productId && cartItem.size === size)
-            ? { ...cartItem, quantity: quantity  }
+          cartItem._id === productId && cartItem.size === size
+            ? { ...cartItem, quantity: quantity }
             : cartItem
         )
       );
     } else {
       try {
         const url = `http://192.168.1.109:5000/api/cart/update`;
-      const response = await axios.put(url,
-        {productID:productId,quantity,size },
-        {withCredentials:true}
-      );
-      //alert("Cart updated successfully");
-      //console.log("Cart updated successfully (database) :: ",response.data.cart);
-      getCart();
+        const response = await axios.put(
+          url,
+          { productID: productId, quantity, size },
+          { withCredentials: true }
+        );
+        //alert("Cart updated successfully");
+        //console.log("Cart updated successfully (database) :: ",response.data.cart);
+        getCart();
       } catch (error) {
-        console.log("Error! updating cart ",error);
+        console.log("Error! updating cart ", error);
       }
     }
   };
 
-  const removeCart = async (productId ,size) => {
+  const removeCart = async (productId, size) => {
     if (!user) {
-      setCartItems(cartItems.filter((cartItem)=>!(cartItem._id===productId && cartItem.size===size)));
-
+      setCartItems(
+        cartItems.filter(
+          (cartItem) => !(cartItem._id === productId && cartItem.size === size)
+        )
+      );
     } else {
       try {
         const url = `http://192.168.1.109:5000/api/cart/remove`;
         const response = await axios.delete(url, {
           withCredentials: true,
-          data: { productID: productId , size }, // Important: Send body this way with axios.delete
+          data: { productID: productId, size }, // Important: Send body this way with axios.delete
         });
-        console.log("cart deleted successfully (database) :: ",response.data.cart);
-        getCart(); //to refresh the list
+        console.log(
+          "cart deleted successfully (database) :: ",
+          response.data.cart
+        );
+        await getCart(); //to refresh the list
       } catch (error) {
         console.log("error deleting cart (database) : ", error);
       }
@@ -126,7 +138,7 @@ export const CartProvider = ({ children }) => {
       try {
         const url = `http://192.168.1.109:5000/api/cart/clear`;
         const response = await axios.put(url, {}, { withCredentials: true });
-        getCart();
+        await getCart();
       } catch (error) {
         console.log("Error! clearning cart :: ", error);
       }
@@ -159,11 +171,12 @@ export const CartProvider = ({ children }) => {
     } else {
       hasMounted.current = true; // set true after first render
     }
-  }, [cartItems]);
+  }, []);
 
   return (
     <CartContext.Provider
       value={{
+        loading,
         getCart,
         addToCart,
         clearCart,

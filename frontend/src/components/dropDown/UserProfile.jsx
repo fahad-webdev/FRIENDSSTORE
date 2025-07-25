@@ -21,7 +21,7 @@ const UserProfile = () => {
   const handleNavigate = (e) => {
     handleClick(e);
     setTimeout(() => {
-      navigate();
+      navigate("/profile");
     }, 200);
   };
   const handleLogout = (e) => {

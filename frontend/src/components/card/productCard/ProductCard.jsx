@@ -4,11 +4,11 @@ import StarIcon from "@mui/icons-material/Star";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import useRippleEffect from "../../hooks/UseRippleEffect.js";
+import useRippleEffect from "../../../hooks/UseRippleEffect.js";
 import { useLocation, useNavigate } from "react-router-dom";
-import HeadAnimation from "../../hooks/HeadAnimation.js";
-import { useCart } from "../../context/CartContext.jsx";
-import { useWishlist } from "../../hooks/useWishlist.js";
+import HeadAnimation from "../../../hooks/HeadAnimation.js";
+import { useCart } from "../../../context/CartContext.jsx";
+import { useWishlist } from "../../../hooks/useWishlist.js";
 
 const ProductCard = ({ product  }) => {
   const {addToWishlist , fetchWishlist,wishlist} = useWishlist();

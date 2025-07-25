@@ -171,12 +171,3 @@
 }
 
 /*                     CSS for  NO PRODUCT FOUND message */
-.not-found-message {
-  color: rgb(79, 33, 24);
-  position: fixed;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.2rem;
-  padding: 50px;
-}

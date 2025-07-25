@@ -3,7 +3,7 @@ import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
 import { useGlobal } from "../../context/GlobalContext";
 const Sidebar = () => {
-  const {sidebar, setSidebar , setSearchOpen ,searchOpen} = useGlobal();
+  const { sidebar, setSidebar, setSearchOpen, searchOpen } = useGlobal();
   const categoryFilterArray = [];
   const mensHeading = `MEN'S`;
   const mensPara = `Elevate your style with our premium men's collection! From sleek formal shoes to rugged boots, trendy loafers, and ultra-comfortable hoodies, we bring you fashion that blends sophistication with everyday ease. Designed for the modern man who values both style and quality, our collection ensures you look sharp and feel confident no matter the occasion. Shop now and upgrade your wardrobe with timeless essentials!`;
@@ -23,27 +23,27 @@ const Sidebar = () => {
       }}
     >
       <ul>
-       <li>
-         <NavLink
-          to="/mens"
-          end
-          className={({ isActive }) =>
-            isActive ? "active-sidebar-link" : " sidebar-link"
-          }
-          state={{
-            heading: mensHeading,
-            para: mensPara,
-            categoryFilterArray: [
-              "men's shoes",
-              "mens-shirts",
-              "unisex hoodie",
-            ],
-          }}
-          onClick={()=>setSidebar(false)}
-        >
-          MEN'S
-        </NavLink>
-       </li>
+        <li>
+          <NavLink
+            to="/mens"
+            end
+            className={({ isActive }) =>
+              isActive ? "active-sidebar-link" : " sidebar-link"
+            }
+            state={{
+              heading: mensHeading,
+              para: mensPara,
+              categoryFilterArray: [
+                "men's shoes",
+                "mens-shirts",
+                "unisex hoodie",
+              ],
+            }}
+            onClick={() => setSidebar(false)}
+          >
+            MEN'S
+          </NavLink>
+        </li>
         <NavLink
           to="/womens"
           end
@@ -63,7 +63,7 @@ const Sidebar = () => {
               "unisex hoodie",
             ],
           }}
-           onClick={()=>setSidebar(false)}
+          onClick={() => setSidebar(false)}
         >
           <li>WOMEN'S</li>
         </NavLink>
@@ -74,7 +74,7 @@ const Sidebar = () => {
             className={({ isActive }) =>
               isActive ? "active-sidebar-link" : " sidebar-link"
             }
-             onClick={()=>setSidebar(false)}
+            onClick={() => setSidebar(false)}
           >
             SHOP
           </NavLink>
@@ -91,9 +91,21 @@ const Sidebar = () => {
               para: salesPara,
               categoryFilterArray: ["shoes", "men's shoes", "women's shoes"],
             }}
-             onClick={()=>setSidebar(false)}
+            onClick={() => setSidebar(false)}
           >
             MY CART
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/profile"
+            end
+            className={({ isActive }) =>
+              isActive ? "active-sidebar-link" : " sidebar-link"
+            }
+            onClick={() => setSidebar(false)}
+          >
+            WISHLIST
           </NavLink>
         </li>
         <a className=" sidebar-link" onClick={toggleSearch}>

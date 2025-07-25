@@ -6,16 +6,18 @@ const wishlistSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    items: [{
-      productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
+    items: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        size: {
+          type: String,
+          required: true,
+        },
       },
-      size: {
-        type: String,
-        required: true,
-      },
-    }]
+    ],
   },
   { timestamps: true }
 );

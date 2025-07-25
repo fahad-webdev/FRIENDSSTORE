@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Products.css";
 import { useGlobal } from "../../../../context/GlobalContext.jsx";
-import ProductCard from "../../../../components/productCard/ProductCard.jsx";
+import ProductCard from "../../../../components/card/productCard/ProductCard.jsx";
 import Logo from "../../../../assets/fs-logo.png";
 import HeadAnimation from "../../../../hooks/HeadAnimation.js";
 import { useProduct } from "../../../../context/ProductContext.jsx";

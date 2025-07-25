@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import "./CartCard.css";
-import Cross from "../../assets/cancel.png";
-import Check from "../../assets/check.png";
+import Cross from "../../../assets/cancel.png";
+import Check from "../../../assets/check.png";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useCart } from "../../context/CartContext";
 
-const CartCard = ({ cartItem, isSelected, handleProductToggle }) => {
-  const { removeCart, updateCart } = useCart();
+const CartCard = ({ cartItem, isSelected, handleProductToggle,updateCart,removeCart }) => {
 
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [productSize ,setProductSize] = useState(cartItem.size);
@@ -19,23 +17,23 @@ const CartCard = ({ cartItem, isSelected, handleProductToggle }) => {
         <div className="cartcard-checkbox">
           <div
             className="checkbox"
-            onClick={() => handleProductToggle(cartItem._id, cartItem.price)}
+            onClick={() => handleProductToggle(cartItem.productID._id,cartItem.size, cartItem.productID.price)}
           >
             {isSelected && <img src={Check} alt="" className="check-icon" />}
           </div>
         </div>
         <div className="cart-image-back">
-          <img src={cartItem.thumbnail} alt="" className="cart-image" />
+          <img src={cartItem.productID.thumbnail} alt="" className="cart-image" />
         </div>
         <div className="cart-details-back">
-          <h2>{cartItem.title}</h2>
+          <h2>{cartItem.productID.title}</h2>
           <div className="quantity-back">
             <h3>Quantity: </h3>
             <AddIcon
               onClick={() => {
                 const newQty = quantity + 1;
                 setQuantity(newQty);
-                updateCart(cartItem._id, newQty,productSize);
+                updateCart(cartItem.productID._id, newQty,productSize);
               }}
               style={{ fontSize: "1rem", cursor: "pointer" }}
             />{" "}
@@ -45,7 +43,7 @@ const CartCard = ({ cartItem, isSelected, handleProductToggle }) => {
                 if (quantity > 1) {
                   const newQty = quantity - 1;
                   setQuantity(newQty);
-                  updateCart(cartItem._id, newQty,productSize);
+                  updateCart(cartItem.productID._id, newQty,productSize);
                 }
               }}
               style={{ fontSize: "1rem", cursor: "pointer" }}
@@ -57,12 +55,12 @@ const CartCard = ({ cartItem, isSelected, handleProductToggle }) => {
         </div>
         <div className="cart-price-back">
           <img
-            onClick={() => removeCart(cartItem._id,productSize)}
+            onClick={() => removeCart(cartItem.productID._id,productSize)}
             src={Cross}
             alt=""
             className="cross"
           />
-          <h3>Price: ${cartItem.price}</h3>
+          <h3>Price: ${cartItem.productID.price}</h3>
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./AdminProduct.css";
-import AdminProductCard from "../../../components/addProductCard/AdminProductCard";
+import AdminProductCard from "../../../components/card/addProductCard/AdminProductCard";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import Logo from "../../../assets/fs-logo.png";
 import { useGlobal } from "../../../context/GlobalContext";

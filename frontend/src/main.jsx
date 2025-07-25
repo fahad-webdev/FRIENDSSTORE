@@ -27,6 +27,8 @@ import AddUser from "./pages/admin/form/AddUser.jsx";
 import ProtectedRoute from "./routes/ProtectedRoutes.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ProfileLayout from "./pages/profile/Layout.jsx";
+import ProfileInfo from "./components/profileInfo/ProfileInfo.jsx";
+import Wishlist from "./components/wishlist/Layout.jsx"
 
 const Route = createBrowserRouter([
   {
@@ -69,9 +71,19 @@ const Route = createBrowserRouter([
             path: "/contact",
           },
           {
-            element:<ProfileLayout/>,
-            path:"/profile"
-          }
+            element: <ProfileLayout />,
+            path: "/profile",
+            children: [
+              {
+                element: <ProfileInfo />,
+                path: "",
+              },
+              {
+                element:<Wishlist/>,
+                path:"wishlist"
+              }
+            ],
+          },
         ],
       },
       {

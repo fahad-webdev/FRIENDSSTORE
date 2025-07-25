@@ -63,7 +63,7 @@
 .cart-price-back h3 {
     color: #b59b6b;
     font-style: italic;
-    font-size: 22px;
+    font-size: 1.4rem;
 }
 
 .cart-price-back .cross {
@@ -144,13 +144,15 @@
         display: none;
     }
     .cart-price-back {
-        width: 14%;
+        width: 12%;
+        margin: 0 15px;
     }
     .cart-price-back h3{
-        font-size: 16px;
+        font-size: 0.8rem;
     }
     .cart-price-back .cross {
         width: 12px;
+        right: 10px;
     }
 }
 

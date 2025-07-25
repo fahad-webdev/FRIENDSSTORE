@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import "./AddToCard.css";
-import CartCard from '../../../../components/cardCard/CartCard';
-import Check from '../../../../assets/check.png';
+import CartCard from "../../../../components/card/cardCard/CartCard";
+import Check from "../../../../assets/check.png";
 import DeleteIcon from "../../../../assets/bin.png";
-import { useCart } from '../../../../context/CartContext';
-import { useGlobal } from '../../../../context/GlobalContext';
+import Logo from "../../../../assets/fs-logo.png";
+import { useCart } from "../../../../context/CartContext";
+import { useGlobal } from "../../../../context/GlobalContext";
 
 const AddToCard = () => {
-  const {SearchQuery , setAlertBox} = useGlobal();
-  const { cartItems, clearCart } = useCart(); // get from context
+  const { SearchQuery, setAlertBox } = useGlobal();
+  const { cartItems,updateCart, clearCart ,removeCart,loading} = useCart(); // get from context
   const [selectedProductIds, setSelectedProductIds] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectAll, setSelectAll] = useState(false);
@@ -16,11 +17,10 @@ const AddToCard = () => {
   // Recalculate when cartItems or selectAll changes
   useEffect(() => {
     if (selectAll) {
-      const allIds = cartItems.map((p) => p._id);
+      const allIds = cartItems.map((p) => p.productID._id);
       setSelectedProductIds(allIds);
-
       const price = cartItems.reduce(
-        (acc, curr) => acc + curr.price * (curr.quantity || 1),
+        (acc, curr) => acc + curr.productID.price * (curr.quantity || 1),
         0
       );
       setTotalPrice(price);
@@ -28,51 +28,63 @@ const AddToCard = () => {
       setSelectedProductIds([]);
       setTotalPrice(0);
     }
-  }, [selectAll, cartItems]);
+  }, [selectAll]);
 
   const toggleSelectAll = () => {
     setSelectAll((prev) => !prev);
   };
 
-  const handleProductToggle = (id) => {
-    const selected = selectedProductIds.includes(id);
-    const product = cartItems.find((item) => item._id === id);
-    const itemTotal = product.price * (product.quantity || 1);
+  const handleProductToggle = (id, size, price) => {
+    const key = `${id}-${size}`;
+    const selected = selectedProductIds.includes(key);
+
+    const product = cartItems.find(
+      (item) => item.productID._id === id && item.size === size
+    );
+
+    if (!product) {
+      console.error(`No product found for id=${id} size=${size}`);
+      return;
+    }
+
+    const itemTotal = price * (product.quantity || 1);
 
     if (selected) {
-      setSelectedProductIds((prev) => prev.filter((pid) => pid !== id));
+      setSelectedProductIds((prev) => prev.filter((pid) => pid !== key));
       setTotalPrice((prev) => prev - itemTotal);
     } else {
-      setSelectedProductIds((prev) => [...prev, id]);
+      setSelectedProductIds((prev) => [...prev, key]);
       setTotalPrice((prev) => prev + itemTotal);
     }
   };
 
   const handleClearCart = () => {
-    cartItems.length>0?
-    setAlertBox({
-      alert:true,
-      head:"Clear Your Cart",
-      message:"Are you sure you want to clear your cart?",
-      onConfirm:()=>{
-         clearCart();
-    setSelectedProductIds([]);
-    setTotalPrice(0);
-    setSelectAll(false);
-      },
-    })
-    :""
+    cartItems.length > 0
+      ? setAlertBox({
+          alert: true,
+          head: "Clear Your Cart",
+          message: "Are you sure you want to clear your cart?",
+          onConfirm: () => {
+            clearCart();
+            setSelectedProductIds([]);
+            setTotalPrice(0);
+            setSelectAll(false);
+          },
+        })
+      : "";
   };
 
-  const FilterCart = cartItems.filter((cartItem)=>
-    cartItem.title.toLowerCase().includes(SearchQuery.toLowerCase())
-  )
+  const FilterCart = cartItems.filter((cartItem) =>
+    cartItem.productID.title.toLowerCase().includes(SearchQuery.toLowerCase())
+  );
   return (
     <div className="addtocard-main-back">
       <div className="heading1 cart-heading">
         <div className="cartcard-checkbox" id="cartcard-checkbox">
           <div className="checkbox" onClick={toggleSelectAll}>
-            {selectAll && <img src={Check} alt="Checked" className="check-icon" />}
+            {selectAll && (
+              <img src={Check} alt="Checked" className="check-icon" />
+            )}
           </div>
         </div>
         <h1>ORDER SUMMARY</h1>
@@ -89,19 +101,26 @@ const AddToCard = () => {
         {FilterCart.length > 0 ? (
           FilterCart.reverse().map((cartItem) => (
             <CartCard
-              key={`${cartItem._id}-${cartItem.size}`}//create unique id by adding size with _id so react won't get confuse 
+              key={`${cartItem.productID._id}-${cartItem.size}`} //create unique id by adding size with _id so react won't get confuse
               cartItem={cartItem}
-              isSelected={selectedProductIds.includes(cartItem._id)}
+              isSelected={selectedProductIds.includes(cartItem.productID._id)}
               handleProductToggle={handleProductToggle}
+              updateCart={updateCart}
+              removeCart={removeCart}
             />
           ))
-        ) : (
-          <p className='not-found-message'>Your cart is empty.</p>
+        ) : loading === true ? (
+          <div className="loading">
+            <span></span>
+            <img src={Logo} alt="" className="loader-image" />
+          </div>
+        ) :  (
+          <p className="not-found-message">Your cart is empty.</p>
         )}
       </div>
 
       <div className="addtocard-btn-back">
-        <h4 style={{ color: "grey" }} className='no-of-products'>
+        <h4 style={{ color: "grey" }} className="no-of-products">
           No of Products: {selectedProductIds.length}
         </h4>
         <button

@@ -137,10 +137,10 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="/profile"
+                to="/profile/wishlist"
                 end
                 className={({ isActive }) =>
-                  isActive ? "active-link" : "link"
+                isActive ? "active-link" : "link"
                 }
               >
                 WISHLIST

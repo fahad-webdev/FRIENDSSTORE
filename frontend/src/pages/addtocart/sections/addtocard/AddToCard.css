@@ -29,7 +29,7 @@
     height: 70%;
     width: 100%;
     overflow-y: scroll;
-    
+    position: relative;
 }
 .addtocard-main-scroll::-webkit-scrollbar{
     display: none;
@@ -44,10 +44,14 @@
     padding:20px 0px;
 }
 .addtocard-btn-back .no-of-products{
-    width:13%
+    width:25%;
 }
 .addtocard-btn-back .continue-btn{
     width:120px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
     border-radius: 15px ;
     padding:10px 20px;
     font-size: 16px;
@@ -71,21 +75,22 @@
 @media  (width>=320px) and (width<=425px) {
     .addtocard-main-back{
         width: 100%;
-        height: 76vh;
+       height: 80vh;
+       
     }
     .cart-heading{
         justify-content: space-between;
     }
     .cart-heading h1{
         width: 50%;
-        font-size: 20px;
+        font-size:1rem;
     }
     .cart-heading .delete-icon{
         width:20px;
-        margin-right: 10px;
+        margin-right: 15px;
     }
     .addtocard-main-scroll{
-        height: 80%;
+        height: 82%;
     }
     .addtocard-btn-back{
         padding:10px 0px;

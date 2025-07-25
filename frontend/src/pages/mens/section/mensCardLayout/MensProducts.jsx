@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ProductCard from "../../../../components/productCard/ProductCard.jsx";
+import ProductCard from "../../../../components/card/productCard/ProductCard.jsx";
 import { useLocation } from "react-router-dom";
 import { useGlobal } from "../../../../context/GlobalContext";
 import Logo from "../../../../assets/fs-logo.png";
