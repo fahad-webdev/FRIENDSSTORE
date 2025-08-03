@@ -9,52 +9,66 @@ import { useGlobal } from "../../../../context/GlobalContext";
 
 const AddToCard = () => {
   const { SearchQuery, setAlertBox } = useGlobal();
-  const { cartItems,updateCart, clearCart ,removeCart,loading} = useCart(); // get from context
+  const { cartItems, updateCart, clearCart, removeCart, loading } = useCart();
   const [selectedProductIds, setSelectedProductIds] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectAll, setSelectAll] = useState(false);
 
-  // Recalculate when cartItems or selectAll changes
+  // Update selectAll state when individual items are selected/deselected
   useEffect(() => {
-    if (selectAll) {
-      const allIds = cartItems.map((p) => p.productID._id);
-      setSelectedProductIds(allIds);
-      const price = cartItems.reduce(
-        (acc, curr) => acc + curr.productID.price * (curr.quantity || 1),
-        0
-      );
-      setTotalPrice(price);
+    const filteredCart = cartItems.filter((cartItem) =>
+      cartItem.productID.title.toLowerCase().includes(SearchQuery.toLowerCase())
+    );
+    
+    if (filteredCart.length > 0) {
+      const allKeys = filteredCart.map((item) => `${item.productID._id}-${item.size}`);
+      const allSelected = allKeys.every((key) => selectedProductIds.includes(key));
+      setSelectAll(allSelected);
     } else {
-      setSelectedProductIds([]);
-      setTotalPrice(0);
+      setSelectAll(false);
     }
-  }, [selectAll]);
+  }, [selectedProductIds, cartItems, SearchQuery]);
+
+  // Calculate total price whenever selected items change
+  useEffect(() => {
+    let price = 0;
+    selectedProductIds.forEach((key) => {
+      const [id, size] = key.split('-');
+      const product = cartItems.find(
+        (item) => item.productID._id === id && item.size === size
+      );
+      if (product) {
+        price += product.productID.price * (product.quantity || 1);
+      }
+    });
+    setTotalPrice(price);
+  }, [selectedProductIds, cartItems]);
 
   const toggleSelectAll = () => {
-    setSelectAll((prev) => !prev);
+    const filteredCart = cartItems.filter((cartItem) =>
+      cartItem.productID.title.toLowerCase().includes(SearchQuery.toLowerCase())
+    );
+
+    if (selectAll) {
+      // Deselect all
+      setSelectedProductIds([]);
+    } else {
+      // Select all filtered items
+      const allKeys = filteredCart.map((item) => `${item.productID._id}-${item.size}`);
+      setSelectedProductIds(allKeys);
+    }
   };
 
   const handleProductToggle = (id, size, price) => {
     const key = `${id}-${size}`;
     const selected = selectedProductIds.includes(key);
 
-    const product = cartItems.find(
-      (item) => item.productID._id === id && item.size === size
-    );
-
-    if (!product) {
-      console.error(`No product found for id=${id} size=${size}`);
-      return;
-    }
-
-    const itemTotal = price * (product.quantity || 1);
-
     if (selected) {
+      // Remove from selection
       setSelectedProductIds((prev) => prev.filter((pid) => pid !== key));
-      setTotalPrice((prev) => prev - itemTotal);
     } else {
+      // Add to selection
       setSelectedProductIds((prev) => [...prev, key]);
-      setTotalPrice((prev) => prev + itemTotal);
     }
   };
 
@@ -77,6 +91,7 @@ const AddToCard = () => {
   const FilterCart = cartItems.filter((cartItem) =>
     cartItem.productID.title.toLowerCase().includes(SearchQuery.toLowerCase())
   );
+
   return (
     <div className="addtocard-main-back">
       <div className="heading1 cart-heading">
@@ -101,9 +116,9 @@ const AddToCard = () => {
         {FilterCart.length > 0 ? (
           FilterCart.reverse().map((cartItem) => (
             <CartCard
-              key={`${cartItem.productID._id}-${cartItem.size}`} //create unique id by adding size with _id so react won't get confuse
+              key={`${cartItem.productID._id}-${cartItem.size}`}
               cartItem={cartItem}
-              isSelected={selectedProductIds.includes(cartItem.productID._id)}
+              isSelected={selectedProductIds.includes(`${cartItem.productID._id}-${cartItem.size}`)}
               handleProductToggle={handleProductToggle}
               updateCart={updateCart}
               removeCart={removeCart}
@@ -114,7 +129,7 @@ const AddToCard = () => {
             <span></span>
             <img src={Logo} alt="" className="loader-image" />
           </div>
-        ) :  (
+        ) : (
           <p className="not-found-message">Your cart is empty.</p>
         )}
       </div>
