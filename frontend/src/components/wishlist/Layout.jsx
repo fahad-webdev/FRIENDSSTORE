@@ -6,28 +6,38 @@ import WishlistCard from "../card/wishlistCard/WishlistCard";
 import Logo from "../../assets/fs-logo.png";
 import { useWishlist } from "../../hooks/useWishlist";
 import { useGlobal } from "../../context/GlobalContext";
+
 const Layout = () => {
   const { setAlertBox } = useGlobal();
-  const { fetchWishlist, clearWishlist,removeWishlist, wishlist, loading } = useWishlist();
+  const { fetchWishlist, clearWishlist, removeWishlist, wishlist, loading } = useWishlist();
+  
+  const [selectedProductIds, setSelectedProductIds] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+
   useEffect(() => {
     fetchWishlist();
   }, []);
 
-  const [selectedProductIds, setSelectedProductIds] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
-
-  // Recalculate when wishlist or selectAll changes
+  // Update selectAll state when individual items are selected/deselected
   useEffect(() => {
-    if (selectAll) {
-      const allKeys = wishlist.map((p) => `${p.productId._id}-${p.size}`);
-      setSelectedProductIds(allKeys);
+    if (wishlist.length > 0) {
+      const allKeys = wishlist.map((item) => `${item.productId._id}-${item.size}`);
+      const allSelected = allKeys.every((key) => selectedProductIds.includes(key));
+      setSelectAll(allSelected && selectedProductIds.length > 0);
     } else {
-      setSelectedProductIds([]);
+      setSelectAll(false);
     }
-  }, [selectAll]);
+  }, [selectedProductIds, wishlist]);
 
   const toggleSelectAll = () => {
-    setSelectAll(!selectAll);
+    if (selectAll) {
+      // Deselect all
+      setSelectedProductIds([]);
+    } else {
+      // Select all items
+      const allKeys = wishlist.map((item) => `${item.productId._id}-${item.size}`);
+      setSelectedProductIds(allKeys);
+    }
   };
 
   const handleProductToggle = (id, size) => {

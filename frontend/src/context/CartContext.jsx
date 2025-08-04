@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const CartContext = createContext();
 
@@ -20,7 +21,7 @@ export const CartProvider = ({ children }) => {
       size: item.size,
     }));
   const getCart = async () => {
-     setLoading(true);
+    setLoading(true);
     try {
       const url = `http://192.168.1.109:5000/api/cart`;
       const response = await axios.get(url, { withCredentials: true });
@@ -28,8 +29,7 @@ export const CartProvider = ({ children }) => {
       setCartItems(response.data.cart.items);
     } catch (error) {
       console.log("error! fetching cart failed (database) :: ", error);
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -50,10 +50,30 @@ export const CartProvider = ({ children }) => {
             )
           );
           //console.log("Product added to cart (localstorage)");
-          alert("Product Added to Cart");
+          toast.success(" Added to Cart", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            className: 'custom-toast',
+          });
           getCart(); //to refresh the list
         } else {
-          alert("Product Added to Cart");
+          toast.success(" Added to Cart", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            className: 'custom-toast',
+          });
           return setCartItems([
             ...cartItems,
             { ...product, quantity: 1, size },
@@ -71,11 +91,31 @@ export const CartProvider = ({ children }) => {
           { withCredentials: true }
         );
         //console.log("cart added (database):: ", response.data.cart);
-        alert("Product Added to Cart");
+        toast.success(" Added to Cart", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          className: 'custom-toast',
+        });
         getCart(); //to refresh the list
       }
     } else {
-      alert("This product is in low stock");
+      toast.error(" Low Stock", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            className: 'custom-error-toast',
+          });
     }
   };
 

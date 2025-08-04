@@ -110,8 +110,8 @@ const ProductCard = ({ product  }) => {
              </div>
              </div>
           </div>
-          <button className={`card-btn`} onClick={()=>OpenProductDetails(product)}>
-            BUY NOW
+          <button className={`card-btn`} onClick={()=>addToCart(product,productSize)}>
+            ADD TO CART
           </button>
         </div>
       </div>
