@@ -8,25 +8,10 @@
   -ms-user-select: none;
   /* IE 10+ */
 }
-.custom-toast-container {
-  height: 100vh;
-  pointer-events: none; /* Optional: avoids scroll/mouse flickers */
-}
-.Toastify__toast {
-  pointer-events: auto; /* Re-enable interaction */
-  margin-bottom: 10px;
-}
 
-.custom-toast ,.custom-error-toast{
-  border-radius: 22px !important;
-  width: 180px !important;
-  box-shadow: 0 0px 12px 5px rgba(0, 0, 0, 0.135) !important;
-  font-weight: 500;
-  margin: 10px  30px !important;
-}
-.custom-error-toast{
-  width: 160px !important;
-}
+
+
+
 .heading1 {
   padding: 30px 0px;
   text-align: left;

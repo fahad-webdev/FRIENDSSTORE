@@ -51,7 +51,7 @@ const addToWishlist = async (req, res) => {
       if (exist) {
         return res.status(400).json({
           status: false,
-          message: "Product Already Added In Wishlist",
+          message: "Already In Wishlist",
         });
       }
       //if no same product then add it in wishlist
@@ -60,7 +60,7 @@ const addToWishlist = async (req, res) => {
     await wishlist.save();
     res
       .status(201)
-      .json({ status: true, message: "Product added to wishlist", wishlist });
+      .json({ status: true, message: "Added to wishlist", wishlist });
   } catch (error) {
     res.status(500).json({
       status: false,

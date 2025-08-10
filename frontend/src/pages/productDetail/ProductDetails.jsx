@@ -5,6 +5,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useProduct } from "../../context/ProductContext";
+import RelatedProducts from "./relatedProducts/RelatedProducts";
 
 const ProductDetails = () => {
   const { getProductById, product, loading } = useProduct();
@@ -185,6 +186,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+      <RelatedProducts product={product}/>
     </>
   );
 };

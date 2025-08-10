@@ -8,8 +8,11 @@ import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import { useGlobal } from "../../context/GlobalContext.jsx";
 import UserProfile from "../../components/dropDown/UserProfile.jsx";
 import Alerts from "../../components/alert/Alerts.jsx";
-import { ToastContainer } from "react-toastify";
+import SuccessIcon from "../../assets/success.png";
+//import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
+import DangerIcon from "../../assets/danger.png"
 const Layout = () => {
   //hooks
   const { searchOpen, setSearchOpen } = useGlobal();
@@ -31,19 +34,37 @@ const Layout = () => {
       <Search setSearchOpen={setSearchOpen} searchOpen={searchOpen} />
       <Navbar />
       <Alerts />
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover
-        limit={3}
-        containerClassName="custom-toast-container"
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          success: {
+            icon: (
+              <img
+                src={SuccessIcon}
+                alt="Success"
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  objectFit: "contain",
+                }}
+              />
+            ),
+          },
+           error: {
+            icon: (
+              <img
+                src={DangerIcon}
+                alt="error"
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  objectFit: "contain",
+                }}
+              />
+            ),
+          },
+        }}
       />
-
       <UserProfile />
       <Sidebar />
       <Outlet />

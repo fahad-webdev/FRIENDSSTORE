@@ -7,7 +7,7 @@ export const useUsers = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const url = `http://192.168.1.109:5000/api/users`;
+      const url = `http://localhost:5000/api/users`;
       const response = await axios.get(url, { withCredentials: true });
       const data = response.data;
 
@@ -24,7 +24,7 @@ export const useUsers = () => {
 
   const createUser = async (userData) => {
     try {
-      const url = `http://192.168.1.109:5000/api/users`;
+      const url = `http://localhost:5000/api/users`;
       const response = await axios.post(url, userData, {
         withCredentials: true,
       });
@@ -40,7 +40,7 @@ export const useUsers = () => {
 
   const deleteUser = async (userId) => {
     try {
-      const url = `http://192.168.1.109:5000/api/users/${userId}`;
+      const url = `http://localhost:5000/api/users/${userId}`;
       const response = await axios.delete(url, { withCredentials: true });
       console.log("User deleted successfully");
       return { success: true, message: response.data.message };

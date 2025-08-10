@@ -17,11 +17,11 @@ const AddToCard = () => {
   // Update selectAll state when individual items are selected/deselected
   useEffect(() => {
     const filteredCart = cartItems.filter((cartItem) =>
-      cartItem.productID.title.toLowerCase().includes(SearchQuery.toLowerCase())
+      cartItem.title.toLowerCase().includes(SearchQuery.toLowerCase())
     );
     
     if (filteredCart.length > 0) {
-      const allKeys = filteredCart.map((item) => `${item.productID._id}-${item.size}`);
+      const allKeys = filteredCart.map((item) => `${item._id}-${item.size}`);
       const allSelected = allKeys.every((key) => selectedProductIds.includes(key));
       setSelectAll(allSelected);
     } else {
@@ -35,10 +35,10 @@ const AddToCard = () => {
     selectedProductIds.forEach((key) => {
       const [id, size] = key.split('-');
       const product = cartItems.find(
-        (item) => item.productID._id === id && item.size === size
+        (item) => item._id === id && item.size === size
       );
       if (product) {
-        price += product.productID.price * (product.quantity || 1);
+        price += product.price * (product.quantity || 1);
       }
     });
     setTotalPrice(price);
@@ -46,7 +46,7 @@ const AddToCard = () => {
 
   const toggleSelectAll = () => {
     const filteredCart = cartItems.filter((cartItem) =>
-      cartItem.productID.title.toLowerCase().includes(SearchQuery.toLowerCase())
+      cartItem.title.toLowerCase().includes(SearchQuery.toLowerCase())
     );
 
     if (selectAll) {
@@ -54,7 +54,7 @@ const AddToCard = () => {
       setSelectedProductIds([]);
     } else {
       // Select all filtered items
-      const allKeys = filteredCart.map((item) => `${item.productID._id}-${item.size}`);
+      const allKeys = filteredCart.map((item) => `${item._id}-${item.size}`);
       setSelectedProductIds(allKeys);
     }
   };
@@ -89,7 +89,7 @@ const AddToCard = () => {
   };
 
   const FilterCart = cartItems.filter((cartItem) =>
-    cartItem.productID.title.toLowerCase().includes(SearchQuery.toLowerCase())
+    cartItem.title.toLowerCase().includes(SearchQuery.toLowerCase())
   );
 
   return (
@@ -116,9 +116,9 @@ const AddToCard = () => {
         {FilterCart.length > 0 ? (
           FilterCart.reverse().map((cartItem) => (
             <CartCard
-              key={`${cartItem.productID._id}-${cartItem.size}`}
+              key={`${cartItem._id}-${cartItem.size}`}
               cartItem={cartItem}
-              isSelected={selectedProductIds.includes(`${cartItem.productID._id}-${cartItem.size}`)}
+              isSelected={selectedProductIds.includes(`${cartItem._id}-${cartItem.size}`)}
               handleProductToggle={handleProductToggle}
               updateCart={updateCart}
               removeCart={removeCart}

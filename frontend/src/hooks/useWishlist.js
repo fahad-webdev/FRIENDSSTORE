@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 export const useWishlist = () => {
   const [wishlist, setWishlist] = useState([]);
@@ -8,7 +9,7 @@ export const useWishlist = () => {
   const fetchWishlist = async () => {
     setLoading(true);
     try {
-      const url = `http://192.168.1.109:5000/api/wishlist/`;
+      const url = `http://localhost:5000/api/wishlist/`;
       const response = await axios.get(url, { withCredentials: true });
       setWishlist(response.data.wishlist.items || []);
     } catch (error) {
@@ -20,14 +21,15 @@ export const useWishlist = () => {
 
   const addToWishlist = async (product, size) => {
     try {
-      const url = `http://192.168.1.109:5000/api/wishlist/add`;
+      const url = `http://localhost:5000/api/wishlist/add`;
       const response = await axios.post(
         url,
         { productId: product._id, size },
         { withCredentials: true }
       );
-      alert(response.data.message);
-      await fetchWishlist(); 
+      console.log("Wishlist added :: ", response.data.message);
+      toast.success(response.data.message || "Added Successfully");
+      await fetchWishlist();
     } catch (error) {
       console.log("Error adding product to wishlist:", error);
     }
@@ -35,14 +37,14 @@ export const useWishlist = () => {
 
   const removeWishlist = async (productId, size) => {
     try {
-      const url = `http://192.168.1.109:5000/api/wishlist/remove`;
+      const url = `http://localhost:5000/api/wishlist/remove`;
       const response = await axios.post(
         url,
         { productId, size },
         { withCredentials: true }
       );
-      alert(response.data.message);
-      await fetchWishlist(); 
+      toast.success(response.data.message);
+      await fetchWishlist();
     } catch (error) {
       console.log("Error removing product from wishlist:", error);
     }
@@ -50,17 +52,18 @@ export const useWishlist = () => {
 
   const clearWishlist = async () => {
     try {
-      const url = `http://192.168.1.109:5000/api/wishlist/clear`;
+      const url = `http://localhost:5000/api/wishlist/clear`;
       const response = await axios.delete(url, { withCredentials: true });
-      alert(response.data.message);
-      await fetchWishlist(); 
+
+      toast.success(response.data.message);
+      await fetchWishlist();
     } catch (error) {
       console.log("Error clearing wishlist:", error);
     }
   };
 
   useEffect(() => {
-    fetchWishlist(); 
+    fetchWishlist();
   }, []);
 
   return {
@@ -69,6 +72,6 @@ export const useWishlist = () => {
     addToWishlist,
     removeWishlist,
     clearWishlist,
-    fetchWishlist
+    fetchWishlist,
   };
 };
