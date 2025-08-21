@@ -54,14 +54,14 @@ const CartCard = ({ cartItem, isSelected, handleProductToggle,updateCart,removeC
           </div>
         </div>
         <div className="cart-price-back">
+          <label htmlFor="">Price:</label><h3> ${cartItem.price}</h3>
+        </div>
           <img
             onClick={() => removeCart(cartItem._id,productSize)}
             src={Cross}
             alt=""
             className="cross"
           />
-          <h3>Price: ${cartItem.price}</h3>
-        </div>
       </div>
     </>
   );

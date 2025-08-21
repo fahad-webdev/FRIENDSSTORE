@@ -4,11 +4,19 @@ export const useUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const url = `http://localhost:5000/api/users`;
-      const response = await axios.get(url, { withCredentials: true });
+      const url = `${BASE_URL}/users`;
+      const response = await axios.get(url,  {
+        withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
+      });
       const data = response.data;
 
       const users = Array.isArray(data) ? data : data.users;
@@ -24,9 +32,13 @@ export const useUsers = () => {
 
   const createUser = async (userData) => {
     try {
-      const url = `http://localhost:5000/api/users`;
-      const response = await axios.post(url, userData, {
+      const url = `${BASE_URL}/users`;
+      const response = await axios.post(url, userData,  {
         withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
       });
       const newUser = response.data.user || response.data;
       const msg = newUser.message || "User created successfully";
@@ -40,8 +52,14 @@ export const useUsers = () => {
 
   const deleteUser = async (userId) => {
     try {
-      const url = `http://localhost:5000/api/users/${userId}`;
-      const response = await axios.delete(url, { withCredentials: true });
+      const url = `${BASE_URL}/users/${userId}`;
+      const response = await axios.delete(url, {
+        withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
+      });
       console.log("User deleted successfully");
       return { success: true, message: response.data.message };
     } catch (error) {

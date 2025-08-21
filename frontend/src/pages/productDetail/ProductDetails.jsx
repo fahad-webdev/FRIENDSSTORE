@@ -5,7 +5,8 @@ import StarIcon from "@mui/icons-material/Star";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useProduct } from "../../context/ProductContext";
-import RelatedProducts from "./relatedProducts/RelatedProducts";
+import RelatedProducts from "./relatedProducts/RelatedProducts.jsx";
+import useRippleEffect from "../../hooks/UseRippleEffect";
 
 const ProductDetails = () => {
   const { getProductById, product, loading } = useProduct();
@@ -16,12 +17,21 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const {addToCart} = useCart();
+  const handleClick = useRippleEffect();
 
   useEffect(()=>{
    if (product?.size?.length > 0) {
     setProductSize(product.size[0]);
   }
   },[product])
+
+  //function for handling add to cart 
+  const handleAddToCart =(e,product,productSize)=>{
+    handleClick(e);
+    setTimeout(async() => {
+      addToCart(product,productSize)
+    }, 200);
+  }
 
   // Function to find product by ID
   const toggleViewReview = () => setViewReview(!viewReview);
@@ -116,9 +126,8 @@ const ProductDetails = () => {
               </div>
               <div className="detail-btn-back">
                 <button
-                onClick={()=>addToCart(product,productSize)}
+                onClick={(e)=>handleAddToCart(e,product,productSize)}
                 className="detail-btn card-btn">ADD TO CART</button>
-                <button className="detail-btn card-btn">BUY NOW</button>
               </div>
               </div>
               <div className="reviews-back">

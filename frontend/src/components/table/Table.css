@@ -71,8 +71,14 @@
 
 .top-product-table .td2 {
   width: 22%;
-
   font-size: 0.8rem;
+}
+.top-product-table .td2 p{
+   max-height: 100px;
+  overflow-y: scroll;
+}
+.top-product-table .td2 p::-webkit-scrollbar{
+  display: none;
 }
 
 .top-product-table .td5 {

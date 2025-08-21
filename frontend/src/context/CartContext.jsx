@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useEffect, useRef, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -14,14 +21,15 @@ export const CartProvider = ({ children }) => {
   const isInitialized = useRef(false);
 
   // Use environment variable for API URL
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // Generate or get guest ID
   const getGuestId = useCallback(() => {
-    let guestId = localStorage.getItem('guestId');
+    let guestId = localStorage.getItem("guestId");
     if (!guestId) {
-      guestId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('guestId', guestId);
+      guestId =
+        "guest_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem("guestId", guestId);
     }
     return guestId;
   }, []);
@@ -45,10 +53,10 @@ export const CartProvider = ({ children }) => {
     try {
       if (user && isAuthentic) {
         // Check if there's a guest cart to migrate
-        const guestId = localStorage.getItem('guestId');
+        const guestId = localStorage.getItem("guestId");
         const guestCart = localStorage.getItem(`GuestCart_${guestId}`);
-        
-        if (guestCart && guestCart !== '[]') {
+
+        if (guestCart && guestCart !== "[]") {
           await migrateGuestCartToUser(guestId);
         } else {
           await getCart();
@@ -57,8 +65,8 @@ export const CartProvider = ({ children }) => {
         loadGuestCart();
       }
     } catch (error) {
-      console.error('Error initializing cart:', error);
-      setError('Failed to load cart');
+      console.error("Error initializing cart:", error);
+      setError("Failed to load cart");
     } finally {
       setLoading(false);
     }
@@ -69,37 +77,43 @@ export const CartProvider = ({ children }) => {
     try {
       const guestId = getGuestId();
       const stored = localStorage.getItem(`GuestCart_${guestId}`);
-      
+
       if (stored) {
         const parsed = JSON.parse(stored);
         // Validate cart items and filter out invalid ones
-        const validItems = parsed.filter(item => 
-          item && item._id && item.title && item.price
+        const validItems = parsed.filter(
+          (item) => item && item._id && item.title && item.price
         );
         setCartItems(validItems);
-        
+
         // Update localStorage if we filtered out invalid items
         if (validItems.length !== parsed.length) {
-          localStorage.setItem(`GuestCart_${guestId}`, JSON.stringify(validItems));
+          localStorage.setItem(
+            `GuestCart_${guestId}`,
+            JSON.stringify(validItems)
+          );
         }
       } else {
         setCartItems([]);
       }
     } catch (error) {
-      console.error('Error loading guest cart:', error);
+      console.error("Error loading guest cart:", error);
       setCartItems([]);
     }
   };
 
   // Save guest cart to localStorage
-  const saveGuestCart = useCallback((items) => {
-    try {
-      const guestId = getGuestId();
-      localStorage.setItem(`GuestCart_${guestId}`, JSON.stringify(items));
-    } catch (error) {
-      console.error('Error saving guest cart:', error);
-    }
-  }, [getGuestId]);
+  const saveGuestCart = useCallback(
+    (items) => {
+      try {
+        const guestId = getGuestId();
+        localStorage.setItem(`GuestCart_${guestId}`, JSON.stringify(items));
+      } catch (error) {
+        console.error("Error saving guest cart:", error);
+      }
+    },
+    [getGuestId]
+  );
 
   // Normalize cart items from API response
   const normalizeCartItems = (items) => {
@@ -114,24 +128,28 @@ export const CartProvider = ({ children }) => {
   // Get cart from server (authenticated users)
   const getCart = async () => {
     if (!user || !isAuthentic) return;
-    
+
     setLoading(true);
     setError(null);
-    
+
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/cart`, { 
-        withCredentials: true 
+      const response = await axios.get(`${BASE_URL}/cart`, {
+        withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
       });
-      
-      const normalizedItems = response.data.cart?.items 
+
+      const normalizedItems = response.data.cart?.items
         ? normalizeCartItems(response.data.cart.items)
         : [];
-      
+
       setCartItems(normalizedItems);
     } catch (error) {
       console.error("Error fetching cart:", error);
-      setError('Failed to load cart');
-      
+      setError("Failed to load cart");
+
       // Fallback to empty cart on error
       setCartItems([]);
     } finally {
@@ -156,7 +174,7 @@ export const CartProvider = ({ children }) => {
         pauseOnHover: false,
         draggable: true,
         theme: "light",
-        className: 'custom-error-toast',
+        className: "custom-error-toast",
       });
       return;
     }
@@ -202,7 +220,7 @@ export const CartProvider = ({ children }) => {
       pauseOnHover: false,
       draggable: true,
       theme: "light",
-      className: 'custom-toast',
+      className: "custom-toast",
     });
   };
 
@@ -210,15 +228,21 @@ export const CartProvider = ({ children }) => {
   const addToUserCart = async (product, size) => {
     try {
       setLoading(true);
-      
+
       const response = await axios.post(
-        `${API_BASE_URL}/api/cart/add`,
+        `${BASE_URL}/cart/add`,
         {
           productID: product._id,
           quantity: 1,
           size,
         },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       toast.success("Added to Cart", {
@@ -229,14 +253,14 @@ export const CartProvider = ({ children }) => {
         pauseOnHover: false,
         draggable: true,
         theme: "light",
-        className: 'custom-toast',
+        className: "custom-toast",
       });
 
       // Refresh cart from server
       await getCart();
     } catch (error) {
       console.error("Error adding to cart:", error);
-      setError('Failed to add item to cart');
+      setError("Failed to add item to cart");
       toast.error("Failed to add to cart");
     } finally {
       setLoading(false);
@@ -264,17 +288,23 @@ export const CartProvider = ({ children }) => {
       // Authenticated user
       try {
         setLoading(true);
-        
+
         await axios.put(
-          `${API_BASE_URL}/api/cart/update`,
+          `${BASE_URL}/cart/update`,
           { productID: productId, quantity, size },
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: {
+              "ngrok-skip-browser-warning": "true",
+              "Content-Type": "application/json",
+            },
+          }
         );
-        
+
         await getCart();
       } catch (error) {
         console.error("Error updating cart:", error);
-        setError('Failed to update cart');
+        setError("Failed to update cart");
       } finally {
         setLoading(false);
       }
@@ -296,16 +326,25 @@ export const CartProvider = ({ children }) => {
       // Authenticated user
       try {
         setLoading(true);
-        
-        await axios.delete(`${API_BASE_URL}/api/cart/remove`, {
-          withCredentials: true,
-          data: { productID: productId, size },
-        });
-        
+
+        await axios.delete(
+          `${BASE_URL}/cart/remove`,
+          {
+            withCredentials: true,
+            headers: {
+              "ngrok-skip-browser-warning": "true",
+              "Content-Type": "application/json",
+            },
+          },
+          {
+            data: { productID: productId, size },
+          }
+        );
+
         await getCart();
       } catch (error) {
         console.error("Error removing from cart:", error);
-        setError('Failed to remove item from cart');
+        setError("Failed to remove item from cart");
       } finally {
         setLoading(false);
       }
@@ -325,15 +364,19 @@ export const CartProvider = ({ children }) => {
       // Authenticated user
       try {
         setLoading(true);
-        
-        await axios.put(`${API_BASE_URL}/api/cart/clear`, {}, { 
-          withCredentials: true 
-        });
-        
+
+        await axios.put(
+          `${BASE_URL}/cart/clear`,
+          {},
+          {
+            withCredentials: true,
+          }
+        );
+
         setCartItems([]);
       } catch (error) {
         console.error("Error clearing cart:", error);
-        setError('Failed to clear cart');
+        setError("Failed to clear cart");
       } finally {
         setLoading(false);
       }
@@ -345,14 +388,14 @@ export const CartProvider = ({ children }) => {
     try {
       const guestCartKey = `GuestCart_${guestId}`;
       const guestCartData = localStorage.getItem(guestCartKey);
-      
-      if (!guestCartData || guestCartData === '[]') {
+
+      if (!guestCartData || guestCartData === "[]") {
         await getCart();
         return;
       }
 
       const guestItems = JSON.parse(guestCartData);
-      
+
       if (guestItems.length === 0) {
         await getCart();
         return;
@@ -362,21 +405,27 @@ export const CartProvider = ({ children }) => {
 
       // Send guest items to server for migration
       const response = await axios.post(
-        `${API_BASE_URL}/api/cart/migrate`,
+        `${BASE_URL}/cart/migrate`,
         { guestItems },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       // Update cart with merged items
-      const normalizedItems = response.data.cart?.items 
+      const normalizedItems = response.data.cart?.items
         ? normalizeCartItems(response.data.cart.items)
         : [];
-      
+
       setCartItems(normalizedItems);
 
       // Clear guest cart
       localStorage.removeItem(guestCartKey);
-      localStorage.removeItem('guestId');
+      localStorage.removeItem("guestId");
 
       toast.success("Cart items merged successfully!");
     } catch (error) {
@@ -390,7 +439,10 @@ export const CartProvider = ({ children }) => {
 
   // Calculate cart totals
   const getCartTotal = useCallback(() => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
   }, [cartItems]);
 
   const getCartItemsCount = useCallback(() => {
@@ -398,18 +450,26 @@ export const CartProvider = ({ children }) => {
   }, [cartItems]);
 
   // Check if item is in cart
-  const isInCart = useCallback((productId, size = null) => {
-    return cartItems.some(item => 
-      item._id === productId && (size === null || item.size === size)
-    );
-  }, [cartItems]);
+  const isInCart = useCallback(
+    (productId, size = null) => {
+      return cartItems.some(
+        (item) =>
+          item._id === productId && (size === null || item.size === size)
+      );
+    },
+    [cartItems]
+  );
 
   // Get specific cart item
-  const getCartItem = useCallback((productId, size = null) => {
-    return cartItems.find(item => 
-      item._id === productId && (size === null || item.size === size)
-    );
-  }, [cartItems]);
+  const getCartItem = useCallback(
+    (productId, size = null) => {
+      return cartItems.find(
+        (item) =>
+          item._id === productId && (size === null || item.size === size)
+      );
+    },
+    [cartItems]
+  );
 
   // Clear error
   const clearError = () => setError(null);
@@ -444,7 +504,7 @@ export const CartProvider = ({ children }) => {
     getCartItemsCount,
     isInCart,
     getCartItem,
-    
+
     // Error handling
     clearError,
 
@@ -453,16 +513,14 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={contextValue}>
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
   );
 };
 
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };

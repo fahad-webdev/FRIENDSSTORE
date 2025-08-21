@@ -212,7 +212,7 @@ const updateProduct = async (req, res) => {
     // Handle uploaded thumbnail
     if (req.files?.thumbnail?.[0]) {
       const thumbPath = req.files.thumbnail[0].path.replace(/\\/g, "/").replace(/^src\//, "");
-      product.thumbnail = `http://${req.hostname}:5000/${thumbPath}`;
+      product.thumbnail = `http://${req.hostname}:/${thumbPath}`;
     } else if (thumbnail) {
       product.thumbnail = thumbnail;
     }
@@ -220,7 +220,7 @@ const updateProduct = async (req, res) => {
     // Handle uploaded images
     if (req.files?.images?.length > 0) {
       product.images = req.files.images.map((file) =>
-        `http://${req.hostname}:5000/${file.path.replace(/\\/g, "/").replace(/^src\//, "")}`
+        `http://${req.hostname}:/${file.path.replace(/\\/g, "/").replace(/^src\//, "")}`
       );
     } else if (images) {
       product.images = Array.isArray(images) ? images : [images];

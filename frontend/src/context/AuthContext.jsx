@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -14,17 +20,24 @@ export const AuthProvider = ({ children }) => {
   const verifyCalledRef = useRef(false);
 
   // Consistent base URL
-  const BASE_URL = "http://localhost:5000/api";
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const verifyUser = async () => {
     // Prevent multiple calls using ref
     if (verifyCalledRef.current) return;
     verifyCalledRef.current = true;
-    
+
     const url = `${BASE_URL}/auth/verify`;
     setLoading(true);
     try {
-      const response = await axios.get(url, { withCredentials: true });
+      const response = await axios.get(url, {
+        withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
+      });
+
       setUser(response.data.user);
       console.log("Authorized User :: ", response.data.user);
       setIsAuthentic(true);
@@ -45,7 +58,14 @@ export const AuthProvider = ({ children }) => {
   const fetchUserProfile = async () => {
     try {
       const url = `${BASE_URL}/user/profile`;
-      const response = await axios.get(url, { withCredentials: true });
+      const response = await axios.get(url, {
+        withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
+      });
+
       console.log("User profile :: ", response.data.user);
       setUser(response.data.user);
     } catch (error) {
@@ -56,9 +76,14 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const url = `${BASE_URL}/auth/signup`;
-      const response = await axios.post(url, userData, {
+      const response = await axios.get(url, {
         withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
       });
+
       const newUser = response.data.user || response.data;
       const msg = newUser.message || "User created successfully";
       return { success: true, message: msg };
@@ -71,9 +96,14 @@ export const AuthProvider = ({ children }) => {
   const loginUser = async (form) => {
     try {
       const url = `${BASE_URL}/auth/login`;
-      const response = await axios.post(url, form, {
+      const response = await axios.post(url,form, {
         withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
       });
+
       const existUser = response.data.user || response.data;
       const msg = existUser.message || "Login Successful";
       const role = existUser?.role;
@@ -91,7 +121,17 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       const url = `${BASE_URL}/auth/logout`;
-      const response = await axios.post(url, {}, { withCredentials: true });
+      const response = await axios.post(
+        url,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setUser(null);
       setIsAuthentic(false);
       return { success: true, message: response.data.message };

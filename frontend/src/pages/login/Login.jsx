@@ -4,6 +4,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import "./Login.css";
 import { useAuth } from "../../context/AuthContext";
+import useRippleEffect from "../../hooks/UseRippleEffect";
 const Login = ({ setFormType, setAlert }) => {
   const {verifyUser,loginUser} = useAuth();
   const [ShowPassword, setShowPassword] = useState(false);
@@ -18,6 +19,8 @@ const Login = ({ setFormType, setAlert }) => {
   const togglePassword = () => {
     setShowPassword(!ShowPassword);
   };
+  const handleClick = useRippleEffect();
+  
   const navigate = useNavigate();
   /*
   ^	Start of the string
@@ -49,26 +52,15 @@ const Login = ({ setFormType, setAlert }) => {
         return false;
       }
 
-      const passwordRegex =
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&=])[A-Za-z\d@$!%*?&=]{8,}$/;
-      if (!passwordRegex.test(form.password)) {
-        setError({
-          ...error,
-          password:
-            "Password should contain uppercase,lowercase,special character and number",
-        });
-        setTimeout(() => {
-          setError({ ...error, password: "" });
-        }, 3000);
-        return false;
-      }
       //setError("");
       return true;
     }
   };
+  //submit button 
   const HandleSubmit = async (e) => {
+    handleClick(e);
     e.preventDefault();
-    if (checkValidation()) {
+        if (checkValidation()) {
       try {
         const result = await loginUser(form);
         setAlert({
@@ -98,6 +90,7 @@ const Login = ({ setFormType, setAlert }) => {
       }
     }
   };
+
   const resetBtn = () => {
     setform({
       email: "",
@@ -154,7 +147,8 @@ const Login = ({ setFormType, setAlert }) => {
               </a>
             </div>
             <div className="login-btn-back">
-              <button className="login-btn" type="submit">
+              <button className="login-btn" type="submit" 
+              >
                 Submit
               </button>
               <button onClick={resetBtn} className="login-btn" id="login-reset">

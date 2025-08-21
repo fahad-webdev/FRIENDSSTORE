@@ -8,7 +8,6 @@ const InventoryTable = ({ filteredProducts }) => {
   const { setAlert, setAlertBox } = useGlobal();
   const { fetchProducts, deleteProduct, products, loading } = useProduct();
 
-
   const handleDeleteProduct = async (id) => {
     setAlertBox({
       alert: true,
@@ -67,7 +66,7 @@ const InventoryTable = ({ filteredProducts }) => {
                     <p>{product.title}</p>
                   </div>
                 </td>
-                <td className="td2">{product.description}</td>
+                <td className="td2"><p>{product.description}</p></td>
                 <td>{product.category}</td>
                 <td>$ {product.price}</td>
                 <td>{product.stock}</td>

@@ -5,8 +5,12 @@ const multer = require('multer');
 const cloudinary = require('../config/cloudinary-config');
 const fs = require('fs');
 
+// Multer setup
 const upload = multer({ dest: 'temp/' });
 
+/**
+ * Upload Image
+ */
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
     const filePath = req.file.path;

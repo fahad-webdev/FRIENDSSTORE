@@ -32,7 +32,7 @@ const RelatedProducts = ({ product }) => {
   // Early return if product is not loaded yet
   if (!product) {
     return (
-      <div className="products-main-back ourteam-main-back">
+      <div className="related-main-back">
         <div className="products-main ourteam-main">
           <div className="products ourteam">
             <div className="heading1">
@@ -52,7 +52,7 @@ const RelatedProducts = ({ product }) => {
 
   return (
    filteredProducts.length<1?""
-    : <div className="products-main-back ourteam-main-back">
+    : <div className="related-main-back">
       <div className="products-main ourteam-main">
         <div className="products ourteam">
           <div className="heading1">

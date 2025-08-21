@@ -20,7 +20,7 @@
 }
 input{
     padding:9px;
-    font-size:16px;
+    font-size:1rem;
     outline: none;
     border:none;   
     border-bottom:1px solid rgb(163, 163, 163);
@@ -107,15 +107,15 @@ input{
     cursor: pointer;
     transition: 0.3s;
 }
-.login-btn-back .login-btn:hover{
-    background-color: white;
-    color:black;
-    font-weight: 500;
-}
+
 
 
 @media (width>=320px) and (width<=425px){
     .login-main{
         width:95%;
+    }
+    .input{
+            font-size:1.2rem;
+
     }
 }

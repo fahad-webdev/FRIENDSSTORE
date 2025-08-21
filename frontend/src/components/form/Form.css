@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     width:100%;
-    height: 100vh;
+    height: 100dvh;
     background: linear-gradient(to right, rgb(207, 180, 130), rgb(238, 238, 238) 60%, rgba(209, 186, 145, 0.863));
 }
 .form-main{
@@ -129,4 +129,10 @@
     .alert-back .close{
         width: 15px;
     }
+}
+
+@media (width>=600px) and (width<=1000px){
+    .form-main{
+    width:90%;
+}
 }

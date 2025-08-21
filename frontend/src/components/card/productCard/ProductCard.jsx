@@ -9,8 +9,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import HeadAnimation from "../../../hooks/HeadAnimation.js";
 import { useCart } from "../../../context/CartContext.jsx";
 import { useWishlist } from "../../../hooks/useWishlist.js";
+import { useAuth } from "../../../context/AuthContext.jsx";
+import toast from "react-hot-toast";
 
 const ProductCard = ({ product }) => {
+  const {user } = useAuth();  
   const { addToWishlist, removeWishlist, wishlist, fetchWishlist } = useWishlist();
   const { addToCart } = useCart();
   const [productSize, setProductSize] = useState(product.size[0]);
@@ -51,7 +54,11 @@ const ProductCard = ({ product }) => {
   };
 
   const handleWishlistToggle = async () => {
-    if (isInWishlist) {
+
+    if(!user){
+      toast.error("Please login to add to wishlist");
+    }else{
+      if (isInWishlist) {
       // Remove from wishlist
       await removeWishlist(product._id, productSize);
     } else {
@@ -60,6 +67,7 @@ const ProductCard = ({ product }) => {
     }
     // Fetch updated wishlist to refresh the state
     await fetchWishlist();
+    }
   };
 
   const location = useLocation();

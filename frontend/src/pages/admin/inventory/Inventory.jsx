@@ -7,13 +7,19 @@ import useRippleEffect from "../../../hooks/UseRippleEffect";
 import { useGlobal } from "../../../context/GlobalContext";
 import { useProduct } from "../../../context/ProductContext";
 const Inventory = () => {
-  const HandleClick = useRippleEffect();
+  const handleClick = useRippleEffect();
   const { fetchProducts, products } = useProduct();
   const {setSearchOpen , SearchQuery} = useGlobal();
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  const handleSearchOpen =(e)=>{
+    handleClick(e);
+    setTimeout(() => {
+      setSearchOpen("open")
+    }, 200);
+  }
 
   const sortByNewest = [...products].sort((a , b)=> new Date(b.createdAt) - new Date(a.createdAt));
 
@@ -27,7 +33,6 @@ const Inventory = () => {
   const Navigate = useNavigate();
 
   const addProductNavigate = () => {
-    HandleClick;
     Navigate("/admin/add-product");
   };
   return (
@@ -43,7 +48,7 @@ const Inventory = () => {
             </label>
             <div className="inventory-btn-back">
               <button
-              onClick={()=>setSearchOpen("open")}
+              onClick={(e)=>handleSearchOpen(e)}
               className="inventory-add-btn">
                 SEARCH
               </button>

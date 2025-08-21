@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 
 import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 const ProductContext = createContext();
 
@@ -8,16 +9,24 @@ export const useProduct = () => {
   return useContext(ProductContext);
 };
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
-  const url = `http://localhost:5000/api/products`;
-
+  const url = `${BASE_URL}/products`;
+  const { getRequestConfig } = useAuth();
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(url, { withCredentials: true });
+      const response = await axios.get(url, {
+        withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
+      });
       const products = Array.isArray(response.data)
         ? response.data
         : response.data.products || [];
@@ -33,8 +42,14 @@ export const ProductProvider = ({ children }) => {
   //fetch product by ID
   const getProductById = async (productId) => {
     try {
-      const url = `http://localhost:5000/api/products/${productId}`;
-      const response = await axios.get(url, { withCredentials: true });
+      const url = `${BASE_URL}/products/${productId}`;
+      const response = await axios.get(url, {
+        withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
+      });
       const data = response.data;
       const singleProduct = Array.isArray(data) ? data : data.products;
       setProduct(singleProduct);
@@ -49,13 +64,18 @@ export const ProductProvider = ({ children }) => {
 
   const addProduct = async (productData) => {
     try {
-      const url = `http://localhost:5000/api/add-product`;
+      const url = `${BASE_URL}/add-product`;
       const response = await axios.post(
         url,
-        productData
-        ,{withCredentials:true},
+        productData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
@@ -84,13 +104,18 @@ export const ProductProvider = ({ children }) => {
 
   const updateProduct = async (productId, productData) => {
     try {
-      const url = `http://localhost:5000/api/products/${productId}`;
+      const url = `${BASE_URL}/products/${productId}`;
       const response = await axios.put(
         url,
         productData,
-        { withCredentials: true },
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
       const updatedProduct = response.data.product || response.data;
@@ -113,8 +138,8 @@ export const ProductProvider = ({ children }) => {
 
   const deleteProduct = async (productId) => {
     try {
-      const url = `http://localhost:5000/api/delete-product/${productId}`;
-      const response = await axios.delete(url, { withCredentials: true });
+      const url = `${BASE_URL}/delete-product/${productId}`;
+      const response = await axios.delete(url, getRequestConfig());
 
       /*const updatedProducts = products.filter((p) => p.id !== productId);
       setProducts(updatedProducts);

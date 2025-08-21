@@ -22,13 +22,13 @@ app.use(express.static("public")); //for images or videos
 app.use(cookieParser());
 
 const originUrls = [
-  "http://localhost:5173/",
-  "http://172.26.112.1:5173/",
-  "http://192.168.75.1:5173/",
-  "http://192.168.174.1:5173/",
-  "http://192.168.216.43:5173/",
-  "http://192.168.1.109:5173/",
-  "http://192.168.216.43:5173/",
+  "http://localhost:5173",
+  "http://172.26.112.1:5173",
+  "http://192.168.174.1:5173",
+  "http://192.168.216.43:5173",
+  "http://192.168.1.109:5173",
+  "http://192.168.216.43:5173",
+  "https://*.ngrok-free.app",
   // Add more URLs as needed
 ];
 
